@@ -1,5 +1,7 @@
 import PageLayout from "../../components/PageLayout";
 import { IoCaretDown } from "react-icons/io5";
+import { HiMenuAlt1 } from "react-icons/hi";
+import { BiBorderAll } from "react-icons/bi";
 
 export default function Movies() {
   return (
@@ -13,6 +15,14 @@ export default function Movies() {
               <IoCaretDown />
             </span>
             <div></div>
+          </div>
+          <div className="flex text-md text-slate-200">
+            <div className="flex items-center px-4 border border-slate-200">
+              <HiMenuAlt1 />
+            </div>
+            <div className="flex items-center px-4 border border-slate-200">
+              <BiBorderAll />
+            </div>
           </div>
         </div>
       </PageLayout>

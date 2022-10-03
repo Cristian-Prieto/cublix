@@ -205,7 +205,7 @@ export default function ModalLayout({ info, genres, credits, tv }) {
                   <Image
                     src={
                       episode.still_path
-                        ? ` ${BASE_IMAGE_URL}${episode.still_path}`
+                        ? `${BASE_IMAGE_URL}${episode.still_path}`
                         : `${BASE_IMAGE_URL}${
                             info.poster_path ?? info.backdrop_path
                           }`

@@ -13,8 +13,8 @@ export default function NavBar() {
           <Link href="/">
             <a className="hover:opacity-80 trasition duration-300">Home</a>
           </Link>
-          <Link href="/Tvshows">
-            <a className="hover:opacity-80 trasition duration-300">Shows</a>
+          <Link href="/Tv">
+            <a className="hover:opacity-80 trasition duration-300">Tv</a>
           </Link>
           <Link href="/Movies">
             <a className="hover:opacity-80 trasition duration-300">Movies</a>

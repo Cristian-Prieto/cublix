@@ -5,16 +5,16 @@ import { IoCaretDown, IoCaretUp } from "react-icons/io5";
 export default function NavBar() {
   return (
     <>
-      <div className="flex justify-between text-white px-12  p-4 bg-gradient-to-b from-black to-zinc-900">
+      <div className="flex justify-between text-white px-12 p-4 bg-gradient-to-b from-black to-transparent">
         <ul className="hidden sm:flex justify-center items-center text-sm font-light space-x-6">
           <Link href="/">
             <a className="text-2xl font-bold text-red-600">CUBLIX</a>
           </Link>
           <Link href="/">
-            <a className="hover:opacity-80 trasition duration-300">Home</a>
+            <a className="hover:opacity-80 trasition duration-300 pl-8">Home</a>
           </Link>
           <Link href="/Tv">
-            <a className="hover:opacity-80 trasition duration-300">Tv</a>
+            <a className="hover:opacity-80 trasition duration-300">Tv Shows</a>
           </Link>
           <Link href="/Movies">
             <a className="hover:opacity-80 trasition duration-300">Movies</a>

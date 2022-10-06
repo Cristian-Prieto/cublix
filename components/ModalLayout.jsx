@@ -3,12 +3,20 @@ import { BASE_IMAGE_URL } from "../utils/images";
 import { BASE_URL, API_KEY } from "../utils/requests";
 import { IoPlaySharp, IoCaretDown, IoCaretUp } from "react-icons/io5";
 import { IoMdAdd } from "react-icons/io";
-import { AiOutlineLike } from "react-icons/ai";
+import { AiOutlineLike, AiOutlineCloseCircle } from "react-icons/ai";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
-export default function ModalLayout({ info, genres, credits, tv }) {
+export default function ModalLayout({
+  toggleModal,
+  info,
+  genres,
+  credits,
+  tv,
+}) {
   const [allGenres, setAllGenres] = useState(null);
   const [getCast, setGetCast] = useState(null);
+  const [recomendations, setRecomendations] = useState(null);
   const [seasons, setSeasons] = useState(null);
   const [seasonData, setSeasonsData] = useState(null);
   const [actualSeason, setActualSeason] = useState(1);
@@ -16,8 +24,9 @@ export default function ModalLayout({ info, genres, credits, tv }) {
   const [isSeasonsMenuOpen, setIsSeasonsMenuOpen] = useState(false);
   const actualYear = new Date();
   // console.log("seasonData", seasonData);
-  // console.log("info", info);
+  console.log("info", info);
   // console.log("totalSeasons", totalSeasons);
+  const router = useRouter();
 
   const seasonsMenu = () => {
     setIsSeasonsMenuOpen((prevState) => !prevState);
@@ -50,6 +59,16 @@ export default function ModalLayout({ info, genres, credits, tv }) {
           setSeasons(jsonData);
           setTotalSeasons(jsonData.number_of_seasons);
         });
+    } else {
+      fetch(
+        `${BASE_URL}/movie/${info.id}/recommendations?api_key=${API_KEY}&language=en-US&page=1`
+      )
+        .then((res) => res.json())
+        .then((jsonData) => {
+          setRecomendations(jsonData.results);
+          console.log("recomendations:", jsonData.results);
+        })
+        .catch((err) => console.error(err));
     }
   }, []);
 
@@ -80,6 +99,14 @@ export default function ModalLayout({ info, genres, credits, tv }) {
   return (
     <>
       <div className="flex flex-col relative text-white bg-gradient-to-b from-transparent to-zinc-900">
+        <div
+          className="z-50 absolute right-8 top-4"
+          onClick={() => {
+            router.back();
+          }}
+        >
+          <AiOutlineCloseCircle className="text-3xl text-white" />
+        </div>
         <Image
           key={info.id}
           src={`${BASE_IMAGE_URL}${info.backdrop_path ?? info.poster_path}`}
@@ -92,11 +119,13 @@ export default function ModalLayout({ info, genres, credits, tv }) {
           <h2 className="text-3xl drop-shadow-2xl">
             {info.title || info.name}
           </h2>
+
           <div className="flex gap-4 items-center">
             <button className="flex gap-2 font-semibold rounded-md px-4 py-2 text-black bg-slate-50">
               <IoPlaySharp className="text-3xl" />
               <span>Play</span>
             </button>
+
             <div className="flex border-2 border-slate-300 rounded-full p-2 backdrop-blur-md">
               <IoMdAdd className="text-xl text-white" />
             </div>
@@ -160,6 +189,40 @@ export default function ModalLayout({ info, genres, credits, tv }) {
           </h3>
         </aside>
       </section>
+      {recomendations && (
+        <section className="bg-zinc-900 p-12">
+          <h2 className="text-2xl font-bold text-white mb-4">Recomended</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 text-white gap-6">
+            {recomendations.map((recomend) => (
+              <div
+                key={recomend.id}
+                className="overflow-hidden rounded-md  bg-zinc-800"
+              >
+                <Image
+                  src={`${BASE_IMAGE_URL}${
+                    recomend.backdrop_path ?? recomend.poster_path
+                  }`}
+                  alt={recomend.title}
+                  width={300}
+                  height={180}
+                ></Image>
+                <div className="flex flex-col gap-2 p-4">
+                  <h3 className="font-bold">{recomend.title}</h3>
+                  <span className="font-thin">
+                    {recomend.release_date
+                      ? info.release_date.slice(0, 4)
+                      : actualYear.getFullYear()}
+                  </span>
+                  <p className="mt-4 text-sm max-h-20 overflow-y-scroll scrollbar-none text-zinc-300">
+                    {recomend.overview}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {seasons && (
         <div className="px-12 flex flex-col relative gap-2 bg-zinc-900">
           <h2 className="flex justify-between text-2xl font-bold mb-4 text-white">
@@ -194,6 +257,7 @@ export default function ModalLayout({ info, genres, credits, tv }) {
               )}
             </div>
           </h2>
+
           {seasonData &&
             seasonData.episodes.map((episode) => (
               <div

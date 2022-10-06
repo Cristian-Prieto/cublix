@@ -16,7 +16,7 @@ export default function Thumbnail({ item, handleClick, section }) {
           layout="fixed"
           width={200}
           height={120}
-          className="object-cover cursor-pointer rounded-md"
+          className="object-cover cursor-pointer rounded-sm"
         ></Image>
       </a>
     </Link>

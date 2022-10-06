@@ -5,29 +5,23 @@ import { useState } from "react";
 import { BASE_URL, API_KEY } from "../../utils/requests";
 import Modal from "react-modal";
 import ModalLayout from "../../components/ModalLayout";
-
 import { IoCaretDown } from "react-icons/io5";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { BiBorderAll } from "react-icons/bi";
 import RowSection from "../../components/RowSection";
+import { info } from "autoprefixer";
 
 export default function Tv({
   genres,
   popular,
-  topRated,
-  actionMovies,
-  comedyMovies,
-  horrorMovies,
-  romanceMovies,
+  tvNetflixOriginals,
+  animation,
+  drama,
   documentaries,
+  western,
+  kids,
+  reality,
 }) {
-  // const topRatedList = topRated.results;
-  // const actionMoviesList = actionMovies.results;
-  // const comedyMoviesList = comedyMovies.results;
-  // const horrorMoviesList = horrorMovies.results;
-  // const romanceMoviesList = romanceMovies.results;
-  // const documentariesList = documentaries.results;
-
   const [modalInfo, setModalInfo] = useState("");
   const router = useRouter();
   Modal.setAppElement("#__next");
@@ -64,41 +58,54 @@ export default function Tv({
           section="Tv"
         />
 
-        {/* <RowSection
-          title="Top rated"
+        <RowSection
+          title="Netflix originals"
           setModalInfo={setModalInfo}
-          listData={topRatedList}
+          listData={tvNetflixOriginals}
+          section="Tv"
         />
 
         <RowSection
-          title="Action movies"
+          title="Animation"
           setModalInfo={setModalInfo}
-          listData={actionMoviesList}
+          listData={animation}
+          section="tv"
         />
 
         <RowSection
-          title="Comedy movies"
+          title="Drama"
           setModalInfo={setModalInfo}
-          listData={comedyMoviesList}
-        />
-
-        <RowSection
-          title="Horror movies"
-          setModalInfo={setModalInfo}
-          listData={horrorMoviesList}
-        />
-
-        <RowSection
-          title="Romance movies"
-          setModalInfo={setModalInfo}
-          listData={romanceMoviesList}
+          listData={drama}
+          section="tv"
         />
 
         <RowSection
           title="Documentaries"
           setModalInfo={setModalInfo}
-          listData={documentariesList}
-        /> */}
+          listData={documentaries}
+          section="tv"
+        />
+
+        <RowSection
+          title="Western"
+          setModalInfo={setModalInfo}
+          listData={western}
+          section="tv"
+        />
+
+        <RowSection
+          title="Kids"
+          setModalInfo={setModalInfo}
+          listData={kids}
+          section="tv"
+        />
+
+        <RowSection
+          title="Reality"
+          setModalInfo={setModalInfo}
+          listData={reality}
+          section="tv"
+        />
 
         {router.query.id && (
           <Modal
@@ -152,37 +159,38 @@ export async function getServerSideProps() {
   const [
     genres,
     popular,
-    netflixOriginals,
-    topRated,
-    actionMovies,
-    comedyMovies,
-    horrorMovies,
-    romanceMovies,
+    tvNetflixOriginals,
+    animation,
+    drama,
     documentaries,
+    western,
+    kids,
+    reality,
   ] = await Promise.all([
     fetch(`${BASE_URL}/genre/tv/list?api_key=${API_KEY}&language=en-US`).then(
       (res) => res.json()
     ),
     fetch(requests.fetchPopular).then((res) => res.json()),
-    // fetch(requests.fetchTopRated).then((res) => res.json()),
-    // fetch(requests.fetchActionMovies).then((res) => res.json()),
-    // fetch(requests.fetchComedyMovies).then((res) => res.json()),
-    // fetch(requests.fetchHorrorMovies).then((res) => res.json()),
-    // fetch(requests.fetchRomanceMovies).then((res) => res.json()),
-    // fetch(requests.fetchDocumentaries).then((res) => res.json()),
+    fetch(requests.fetchTvNetflixOriginals).then((res) => res.json()),
+    fetch(requests.fetchAnimation).then((res) => res.json()),
+    fetch(requests.fetchDrama).then((res) => res.json()),
+    fetch(requests.fetchTvDocumentaries).then((res) => res.json()),
+    fetch(requests.fetchWestern).then((res) => res.json()),
+    fetch(requests.fetchKids).then((res) => res.json()),
+    fetch(requests.fetchReality).then((res) => res.json()),
   ]);
 
   return {
     props: {
       genres: genres.genres,
       popular,
-      // netflixOriginals,
-      // topRated,
-      // actionMovies,
-      // comedyMovies,
-      // horrorMovies,
-      // romanceMovies,
-      // documentaries,
+      tvNetflixOriginals,
+      animation,
+      drama,
+      documentaries,
+      western,
+      kids,
+      reality,
     },
   };
 }

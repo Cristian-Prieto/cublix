@@ -10,11 +10,11 @@ export default function PageLayout({ children, title = "Cublix" }) {
         <meta name="theme-color" content="#404040"></meta>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="container min-w-full min-h-screen  bg-zinc-900">
+      <div className="container relative min-w-full min-h-screen bg-zinc-900">
         <NavBar></NavBar>
-        <main className="px-12 py-4">{children}</main>
+        <main>{children}</main>
         <footer>
-          <span></span>
+          <span className="flex justify-center">hola</span>
         </footer>
       </div>
     </>

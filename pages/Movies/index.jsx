@@ -7,7 +7,6 @@ import { BASE_URL, API_KEY } from "../../utils/requests";
 import { BASE_IMAGE_URL } from "../../utils/images";
 import Modal from "react-modal";
 import ModalLayout from "../../components/ModalLayout";
-
 import { IoCaretDown } from "react-icons/io5";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { BiBorderAll } from "react-icons/bi";

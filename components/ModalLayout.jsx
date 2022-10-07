@@ -104,7 +104,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
             router.back();
           }}
         >
-          <AiOutlineCloseCircle className="text-4xl text-white hover:text-slate-300 cursor-pointer" />
+          <AiOutlineCloseCircle className="text-6xl text-white hover:text-slate-300 cursor-pointer" />
         </div>
         <Image
           key={info.id}

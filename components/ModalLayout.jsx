@@ -3,17 +3,16 @@ import { BASE_IMAGE_URL } from "../utils/images";
 import { BASE_URL, API_KEY } from "../utils/requests";
 import { IoPlaySharp, IoCaretDown, IoCaretUp } from "react-icons/io5";
 import { IoMdAdd } from "react-icons/io";
-import { AiOutlineLike, AiOutlineCloseCircle } from "react-icons/ai";
+import {
+  AiOutlineLike,
+  AiOutlineCloseCircle,
+  AiOutlinePlayCircle,
+} from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
-export default function ModalLayout({
-  toggleModal,
-  info,
-  genres,
-  credits,
-  tv,
-}) {
+export default function ModalLayout({ info, genres, credits, tv, section }) {
   const [allGenres, setAllGenres] = useState(null);
   const [getCast, setGetCast] = useState(null);
   const [recomendations, setRecomendations] = useState(null);
@@ -105,7 +104,7 @@ export default function ModalLayout({
             router.back();
           }}
         >
-          <AiOutlineCloseCircle className="text-3xl text-white" />
+          <AiOutlineCloseCircle className="text-4xl text-white hover:text-slate-300 cursor-pointer" />
         </div>
         <Image
           key={info.id}
@@ -121,10 +120,14 @@ export default function ModalLayout({
           </h2>
 
           <div className="flex gap-4 items-center">
-            <button className="flex gap-2 font-semibold rounded-md px-4 py-2 text-black bg-slate-50">
-              <IoPlaySharp className="text-3xl" />
-              <span>Play</span>
-            </button>
+            <Link href={`/${section}/${info.id}`}>
+              <button className="flex gap-2 font-semibold rounded-md px-4 py-2 text-black bg-slate-50 hover:bg-slate-200">
+                <>
+                  <IoPlaySharp className="text-3xl" />
+                  <span>Play</span>
+                </>
+              </button>
+            </Link>
 
             <div className="flex border-2 border-slate-300 rounded-full p-2 backdrop-blur-md">
               <IoMdAdd className="text-xl text-white" />
@@ -196,8 +199,12 @@ export default function ModalLayout({
             {recomendations.map((recomend) => (
               <div
                 key={recomend.id}
-                className="overflow-hidden rounded-md  bg-zinc-800"
+                className="group relative overflow-hidden rounded-md bg-zinc-800 hover:bg-zinc-600 transition duration-200 cursor-pointer"
               >
+                <div className="text-xs text-slate-400 transition duration-500 absolute z-50 flex w-full items-center justify-center text-center h-32">
+                  <AiOutlinePlayCircle className="text-6xl opacity-0 group-hover:opacity-100 hover:text-slate-100" />
+                </div>
+
                 <Image
                   src={`${BASE_IMAGE_URL}${
                     recomend.backdrop_path ?? recomend.poster_path
@@ -206,6 +213,7 @@ export default function ModalLayout({
                   width={300}
                   height={180}
                 ></Image>
+
                 <div className="flex flex-col gap-2 p-4">
                   <h3 className="font-bold">{recomend.title}</h3>
                   <span className="font-thin">
@@ -262,10 +270,13 @@ export default function ModalLayout({
             seasonData.episodes.map((episode) => (
               <div
                 key={episode.id}
-                className="flex items-center px-8 py-4 gap-4 text-white bg-zinc-900 border-t border-zinc-700"
+                className="group relative flex items-center px-8 py-4 gap-4 text-white bg-zinc-900 border-t border-zinc-700"
               >
                 <span className="text-xl">{episode.episode_number}</span>
-                <div className="relative h-20 min-w-[8rem]">
+                <div className="relative h-20 min-w-[8rem] cursor-pointer">
+                  <div className="text-xs text-slate-400 transition duration-500 absolute z-50 flex w-full items-center justify-center text-center h-full">
+                    <AiOutlinePlayCircle className="text-6xl opacity-0 group-hover:opacity-80 hover:text-slate-100" />
+                  </div>
                   <Image
                     src={
                       episode.still_path

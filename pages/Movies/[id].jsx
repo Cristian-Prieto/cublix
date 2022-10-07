@@ -1,8 +1,37 @@
 import { BASE_URL, API_KEY } from "../../utils/requests";
 import requests from "../../utils/requests";
+import { useEffect, useState } from "react";
 
 export default function MovieDetail({ movieDetail }) {
-  return <div>{movieDetail.title}</div>;
+  const [videoData, setVideoData] = useState(null);
+
+  useEffect(() => {
+    fetch(
+      `${BASE_URL}/movie/${movieDetail.id}/videos?api_key=${API_KEY}&language=en-US`
+    )
+      .then((res) => res.json())
+      .then((jsonData) => {
+        setVideoData(jsonData);
+      })
+      .catch((err) => console.error(err));
+  }, []);
+
+  return (
+    <div className="h-screen w-screen bg-black">
+      <div className="container flex flex-col justify-center items-center m-auto p-4 w-full h-full">
+        {videoData && videoData.results.length > 0 && (
+          <iframe
+            className="w-full h-full object-cover"
+            src={`https://www.youtube.com/embed/${videoData.results[0].key}`}
+            title={videoData.results[0].name}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        )}
+      </div>
+    </div>
+  );
 }
 
 export async function getStaticPaths() {
@@ -25,7 +54,6 @@ export async function getStaticPaths() {
   const paths = uniqueIds.map((movieId) => ({
     params: { id: movieId.toString() },
   }));
-
   return { paths, fallback: false };
 }
 

@@ -81,49 +81,49 @@ export default function Movies({
           title="Netflix originals"
           setModalInfo={setModalInfo}
           listData={netflixOriginals}
-          section="Movies"
+          section="movies"
         />
 
         <RowSection
           title="Top rated"
           setModalInfo={setModalInfo}
           listData={topRated}
-          section="Movies"
+          section="movies"
         />
 
         <RowSection
           title="Action movies"
           setModalInfo={setModalInfo}
           listData={actionMovies}
-          section="Movies"
+          section="movies"
         />
 
         <RowSection
           title="Comedy movies"
           setModalInfo={setModalInfo}
           listData={comedyMovies}
-          section="Movies"
+          section="movies"
         />
 
         <RowSection
           title="Horror movies"
           setModalInfo={setModalInfo}
           listData={horrorMovies}
-          section="Movies"
+          section="movies"
         />
 
         <RowSection
           title="Romance movies"
           setModalInfo={setModalInfo}
           listData={romanceMovies}
-          section="Movies"
+          section="movies"
         />
 
         <RowSection
           title="Documentaries"
           setModalInfo={setModalInfo}
           listData={documentaries}
-          section="Movies"
+          section="movies"
         />
 
         {router.query.id && (
@@ -131,7 +131,7 @@ export default function Movies({
             className="scrollbar-none"
             //!! pasa a booleano
             isOpen={!!router.query.id}
-            onRequestClose={() => router.push("/Movies")}
+            onRequestClose={() => router.push("/movies")}
             style={{
               overlay: {
                 position: "fixed",
@@ -162,7 +162,12 @@ export default function Movies({
               },
             }}
           >
-            <ModalLayout credits="movie" info={modalInfo} genres={genres} />
+            <ModalLayout
+              section="movies"
+              credits="movie"
+              info={modalInfo}
+              genres={genres}
+            />
           </Modal>
         )}
       </PageLayout>

@@ -9,7 +9,6 @@ import { IoCaretDown } from "react-icons/io5";
 import { HiMenuAlt1 } from "react-icons/hi";
 import { BiBorderAll } from "react-icons/bi";
 import RowSection from "../../components/RowSection";
-import { info } from "autoprefixer";
 
 export default function Tv({
   genres,
@@ -25,7 +24,9 @@ export default function Tv({
   const [modalInfo, setModalInfo] = useState("");
   const router = useRouter();
   Modal.setAppElement("#__next");
-  console.log(modalInfo);
+  // console.log(modalInfo);
+  // console.log(genres);
+  // console.log(info)
 
   return (
     <>
@@ -37,7 +38,6 @@ export default function Tv({
               Categories
               <IoCaretDown />
             </span>
-            <div></div>
           </div>
           <div className="flex sm:text-md text-slate-200">
             <div className="flex items-center px-4 border border-slate-200">
@@ -49,20 +49,18 @@ export default function Tv({
           </div>
         </div>
 
-        {/*row lists*/}
-
         <RowSection
           title="Popular"
           setModalInfo={setModalInfo}
           listData={popular}
-          section="Tv"
+          section="tv"
         />
 
         <RowSection
           title="Netflix originals"
           setModalInfo={setModalInfo}
           listData={tvNetflixOriginals}
-          section="Tv"
+          section="tv"
         />
 
         <RowSection
@@ -112,7 +110,7 @@ export default function Tv({
             className="scrollbar-none"
             //!! pasa a booleano
             isOpen={!!router.query.id}
-            onRequestClose={() => router.push("/Tv")}
+            onRequestClose={() => router.push("/tv")}
             style={{
               overlay: {
                 position: "fixed",
@@ -143,6 +141,7 @@ export default function Tv({
             }}
           >
             <ModalLayout
+              section="tv"
               credits="tv"
               info={modalInfo}
               genres={genres}

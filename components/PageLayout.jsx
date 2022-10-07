@@ -1,5 +1,6 @@
 import Head from "next/head";
 import NavBar from "./NavBar";
+import Footer from "./Footer";
 
 export default function PageLayout({ children, title = "Cublix" }) {
   return (
@@ -10,12 +11,10 @@ export default function PageLayout({ children, title = "Cublix" }) {
         <meta name="theme-color" content="#404040"></meta>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="container relative min-w-full min-h-screen bg-zinc-900">
+      <div className="container relative min-w-full min-h-screen bg-neutral-900">
         <NavBar></NavBar>
         <main>{children}</main>
-        <footer>
-          <span className="flex justify-center">hola</span>
-        </footer>
+        <Footer />
       </div>
     </>
   );

@@ -201,9 +201,11 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
                 key={recomend.id}
                 className="group relative overflow-hidden rounded-md bg-zinc-800 hover:bg-zinc-600 transition duration-200 cursor-pointer"
               >
-                <div className="text-xs text-slate-400 transition duration-500 absolute z-50 flex w-full items-center justify-center text-center h-32">
-                  <AiOutlinePlayCircle className="text-6xl opacity-0 group-hover:opacity-100 hover:text-slate-100" />
-                </div>
+                <Link href={`/${section}/${recomend.id}`}>
+                  <div className="text-xs text-slate-400 transition duration-500 absolute z-50 flex w-full items-center justify-center text-center h-32">
+                    <AiOutlinePlayCircle className="text-6xl opacity-0 group-hover:opacity-100 hover:text-slate-100" />
+                  </div>
+                </Link>
 
                 <Image
                   src={`${BASE_IMAGE_URL}${
@@ -213,7 +215,6 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
                   width={300}
                   height={180}
                 ></Image>
-
                 <div className="flex flex-col gap-2 p-4">
                   <h3 className="font-bold">{recomend.title}</h3>
                   <span className="font-thin">
@@ -248,7 +249,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
                 </button>
               </div>
               {seasons.number_of_seasons > 1 && isSeasonsMenuOpen && (
-                <div className="flex flex-col items-center rounded-sm border border-zinc-500 bg-zinc-800 font-normal text-xl mb-2">
+                <div className="flex flex-col items-center rounded-sm border border-zinc-500 bg-zinc-800 font-normal text-xl mb-2 z-50">
                   {[...Array(totalSeasons).keys()].map((item) => (
                     <span
                       key={item}

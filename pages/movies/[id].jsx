@@ -1,9 +1,12 @@
 import { BASE_URL, API_KEY } from "../../utils/requests";
 import requests from "../../utils/requests";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import Back from "../../components/Back";
 
 export default function MovieDetail({ movieDetail }) {
   const [videoData, setVideoData] = useState(null);
+  const router = useRouter();
 
   useEffect(() => {
     fetch(
@@ -18,6 +21,7 @@ export default function MovieDetail({ movieDetail }) {
 
   return (
     <div className="h-screen w-screen bg-black">
+      <Back section="/movies" />
       <div className="container flex flex-col justify-center items-center m-auto p-4 w-full h-full">
         {videoData && videoData.results.length > 0 && (
           <iframe

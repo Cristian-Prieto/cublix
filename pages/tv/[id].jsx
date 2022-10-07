@@ -1,6 +1,7 @@
 import { BASE_URL, API_KEY } from "../../utils/requests";
 import requests from "../../utils/requests";
 import { useEffect, useState } from "react";
+import Back from "../../components/Back";
 
 export default function TvDetail({ tvDetail }) {
   const [videoData, setVideoData] = useState(null);
@@ -17,6 +18,7 @@ export default function TvDetail({ tvDetail }) {
 
   return (
     <div className="h-screen w-screen bg-black">
+      <Back section="/tv" />
       <div className="container flex flex-col justify-center items-center m-auto p-4 w-full h-full">
         {videoData && videoData.results.length > 0 && (
           <iframe

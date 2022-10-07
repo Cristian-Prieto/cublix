@@ -19,12 +19,10 @@ export default function NavBar() {
           <Link href="/movies">
             <a className="hover:opacity-80 trasition duration-300">Movies</a>
           </Link>
-          <Link href="/new&popular">
-            <a className="hover:opacity-80 trasition duration-300">
-              New & popular
-            </a>
+          <Link href="/new-and-popular">
+            <a className="hover:opacity-80 trasition duration-300">New & popular</a>
           </Link>
-          <Link href="/mylist">
+          <Link href="/my-list">
             <a className="hover:opacity-80 trasition duration-300">My list</a>
           </Link>
         </ul>
@@ -33,11 +31,7 @@ export default function NavBar() {
           <span className="hover:opacity-80 trasition duration-300">kids</span>
           <FaBell className="text-xl" />
           <div className="flex justify-center items-center gap-2">
-            <img
-              src="https://via.placeholder.com/150"
-              alt="profile image"
-              className="w-8"
-            ></img>
+            <img src="https://via.placeholder.com/150" alt="profile image" className="w-8"></img>
             <IoCaretDown className="text-xs" />
           </div>
         </div>

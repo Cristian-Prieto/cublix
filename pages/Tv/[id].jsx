@@ -13,7 +13,7 @@ export default function TvDetail({ tvDetail }) {
         setVideoData(jsonData);
       })
       .catch((err) => console.error(err));
-  }, []);
+  }, [tvDetail]);
 
   return (
     <div className="h-screen w-screen bg-black">

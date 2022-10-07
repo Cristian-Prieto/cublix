@@ -14,7 +14,7 @@ export default function MovieDetail({ movieDetail }) {
         setVideoData(jsonData);
       })
       .catch((err) => console.error(err));
-  }, []);
+  }, [movieDetail]);
 
   return (
     <div className="h-screen w-screen bg-black">

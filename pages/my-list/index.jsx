@@ -13,9 +13,7 @@ export default function MyList() {
               Categories
               <IoCaretDown />
             </span>
-            <div>
-              <Thumbnail />
-            </div>
+            <div>{/* <Thumbnail/> */}</div>
           </div>
         </div>
       </PageLayout>

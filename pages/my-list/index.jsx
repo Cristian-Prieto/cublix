@@ -1,5 +1,6 @@
 import PageLayout from "../../components/PageLayout";
 import { IoCaretDown } from "react-icons/io5";
+import Thumbnail from "../../components/Thumbnail";
 
 export default function MyList() {
   return (
@@ -12,7 +13,9 @@ export default function MyList() {
               Categories
               <IoCaretDown />
             </span>
-            <div></div>
+            <div>
+              <Thumbnail />
+            </div>
           </div>
         </div>
       </PageLayout>

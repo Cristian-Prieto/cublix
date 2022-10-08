@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useAppContext } from "./hooks/useAppContext";
 
 export default function ModalLayout({ info, genres, credits, tv, section }) {
   const [allGenres, setAllGenres] = useState(null);
@@ -21,6 +22,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
   const [actualSeason, setActualSeason] = useState(1);
   const [totalSeasons, setTotalSeasons] = useState(null);
   const [isSeasonsMenuOpen, setIsSeasonsMenuOpen] = useState(false);
+  const { addToMyList } = useAppContext();
   const actualYear = new Date();
   // console.log("seasonData", seasonData);
   console.log("info", info);
@@ -129,8 +131,11 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
               </button>
             </Link>
 
-            <div className="flex border-2 border-slate-300 rounded-full p-2 backdrop-blur-md">
-              <IoMdAdd className="text-xl text-white" />
+            <div
+              onClick={() => addToMyList(info)}
+              className="group flex border-2 border-slate-300 rounded-full p-2 backdrop-blur-md hover:bg-zinc-500 cursor-pointer"
+            >
+              <IoMdAdd className="text-xl font-bold opacity-50 group-hover:opacity-100 text-white" />
             </div>
             <div className="flex border-2 border-slate-300 rounded-full p-2 backdrop-blur-md">
               <AiOutlineLike className="text-xl text-white" />
@@ -275,9 +280,11 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
               >
                 <span className="text-xl">{episode.episode_number}</span>
                 <div className="relative h-20 min-w-[8rem] cursor-pointer">
-                  <div className="text-xs text-slate-400 transition duration-500 absolute z-50 flex w-full items-center justify-center text-center h-full">
-                    <AiOutlinePlayCircle className="text-6xl opacity-0 group-hover:opacity-80 hover:text-slate-100" />
-                  </div>
+                  <Link href={`/${section}/${info.id}`}>
+                    <div className="text-xs text-slate-400 transition duration-500 absolute z-50 flex w-full items-center justify-center text-center h-full">
+                      <AiOutlinePlayCircle className="text-6xl opacity-0 group-hover:opacity-80 hover:text-slate-100" />
+                    </div>
+                  </Link>
                   <Image
                     src={
                       episode.still_path

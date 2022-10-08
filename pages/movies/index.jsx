@@ -34,7 +34,6 @@ export default function Movies({
     setRandomTrend(
       trending.results[Math.floor(Math.random() * trending.results.length)]
     );
-    console.log("esto es random:", randomTrend);
   }, []);
 
   return (
@@ -60,7 +59,7 @@ export default function Movies({
         </div>
 
         {randomTrend && (
-          <div className="flex absolute h-screen w-full">
+          <div className="absolute">
             <Image
               src={`${BASE_IMAGE_URL}${
                 randomTrend.backdrop_path ?? randomTrend.poster_path
@@ -69,106 +68,108 @@ export default function Movies({
               layout="fill"
               objectFit="cover"
             ></Image>
+
             <h1 className="text-3xl text-white">{randomTrend.title}</h1>
             <p>{randomTrend.overview}</p>
           </div>
         )}
 
         {/*row lists*/}
+        <div className="flex flex-col">
+          <RowSection
+            title="Netflix originals"
+            setModalInfo={setModalInfo}
+            listData={netflixOriginals}
+            section="movies"
+          />
 
-        <RowSection
-          title="Netflix originals"
-          setModalInfo={setModalInfo}
-          listData={netflixOriginals}
-          section="movies"
-        />
+          <RowSection
+            title="Top rated"
+            setModalInfo={setModalInfo}
+            listData={topRated}
+            section="movies"
+          />
 
-        <RowSection
-          title="Top rated"
-          setModalInfo={setModalInfo}
-          listData={topRated}
-          section="movies"
-        />
+          <RowSection
+            title="Action movies"
+            setModalInfo={setModalInfo}
+            listData={actionMovies}
+            section="movies"
+          />
 
-        <RowSection
-          title="Action movies"
-          setModalInfo={setModalInfo}
-          listData={actionMovies}
-          section="movies"
-        />
+          <RowSection
+            title="Comedy movies"
+            setModalInfo={setModalInfo}
+            listData={comedyMovies}
+            section="movies"
+          />
 
-        <RowSection
-          title="Comedy movies"
-          setModalInfo={setModalInfo}
-          listData={comedyMovies}
-          section="movies"
-        />
+          <RowSection
+            title="Horror movies"
+            setModalInfo={setModalInfo}
+            listData={horrorMovies}
+            section="movies"
+          />
 
-        <RowSection
-          title="Horror movies"
-          setModalInfo={setModalInfo}
-          listData={horrorMovies}
-          section="movies"
-        />
+          <RowSection
+            title="Romance movies"
+            setModalInfo={setModalInfo}
+            listData={romanceMovies}
+            section="movies"
+          />
 
-        <RowSection
-          title="Romance movies"
-          setModalInfo={setModalInfo}
-          listData={romanceMovies}
-          section="movies"
-        />
+          <RowSection
+            title="Documentaries"
+            setModalInfo={setModalInfo}
+            listData={documentaries}
+            section="movies"
+          />
 
-        <RowSection
-          title="Documentaries"
-          setModalInfo={setModalInfo}
-          listData={documentaries}
-          section="movies"
-        />
-
-        {router.query.id && (
-          <Modal
-            className="scrollbar-none"
-            //!! pasa a booleano
-            isOpen={!!router.query.id}
-            onRequestClose={() => router.push("/movies")}
-            style={{
-              overlay: {
-                position: "fixed",
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: "rgba(0, 0, 0, 0.75",
-                zIndex: 50,
-              },
-              content: {
-                position: "absolute",
-                top: "40px",
-                left: "0",
-                right: "0",
-                marginLeft: "auto",
-                marginRight: "auto",
-                bottom: "0",
-                border: "none",
-                maxWidth: "800px",
-                background: "#000",
-                overflow: "auto",
-                WebkitOverflowScrolling: "touch",
-                borderRadius: "8px",
-                outline: "none",
-                padding: "0",
-                boxShadow: "0px 0px 25px 8px rgba(0,0,0,0.5)",
-              },
-            }}
-          >
-            <ModalLayout
-              section="movies"
-              credits="movie"
-              info={modalInfo}
-              genres={genres}
-            />
-          </Modal>
-        )}
+          {router.query.id && (
+            <Modal
+              className="scrollbar-none"
+              //!! pasa a booleano
+              isOpen={!!router.query.id}
+              onRequestClose={() => router.push("/movies")}
+              style={{
+                overlay: {
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: "rgba(0, 0, 0, 0.75",
+                  zIndex: 50,
+                },
+                content: {
+                  position: "absolute",
+                  top: "40px",
+                  left: "0",
+                  right: "0",
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  bottom: "0",
+                  border: "none",
+                  maxWidth: "800px",
+                  background: "#000",
+                  overflow: "auto",
+                  WebkitOverflowScrolling: "touch",
+                  borderRadius: "8px",
+                  outline: "none",
+                  padding: "0",
+                  boxShadow: "0px 0px 25px 8px rgba(0,0,0,0.5)",
+                },
+              }}
+            >
+              <ModalLayout
+                section="movies"
+                credits="movie"
+                info={modalInfo}
+                genres={genres}
+              />
+            </Modal>
+          )}
+        </div>
       </PageLayout>
     </>
   );

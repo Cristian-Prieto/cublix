@@ -22,11 +22,8 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
   const [actualSeason, setActualSeason] = useState(1);
   const [totalSeasons, setTotalSeasons] = useState(null);
   const [isSeasonsMenuOpen, setIsSeasonsMenuOpen] = useState(false);
-  const { addToMyList } = useAppContext();
+  const { addToMyList, removeFromMyList } = useAppContext();
   const actualYear = new Date();
-  // console.log("seasonData", seasonData);
-  console.log("info", info);
-  // console.log("totalSeasons", totalSeasons);
   const router = useRouter();
 
   const seasonsMenu = () => {
@@ -137,6 +134,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
             >
               <IoMdAdd className="text-xl font-bold opacity-50 group-hover:opacity-100 text-white" />
             </div>
+            <span onClick={() => removeFromMyList()}>DELETE</span>
             <div className="flex border-2 border-slate-300 rounded-full p-2 backdrop-blur-md">
               <AiOutlineLike className="text-xl text-white" />
             </div>

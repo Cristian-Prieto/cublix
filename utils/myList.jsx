@@ -15,18 +15,38 @@ const AppContextComponent = ({ children }) => {
     saveMyListToLocalStorage(state);
   }, [state]);
 
+  // const addToMyList = (itemToAdd) => {
+  //   setState((prevState) => [...prevState, itemToAdd]);
+  //   console.log("---itemToAdd:", itemToAdd);
+  // };
+
   const addToMyList = (itemToAdd) => {
-    setState((prevState) => [...prevState, itemToAdd]);
+    const alreadyExist = state.find((entry) => itemToAdd.id === entry.id);
+    setState((prevState) => {
+      if (alreadyExist) {
+        return prevState;
+      }
+      return [...prevState, itemToAdd];
+    });
   };
 
-  const removeFromMyList = (itemToRemove) => {
-    setState(prev);
+  const removeFromMyList = () => {
+    // const alreadyExist = state.find((item) => itemToRemove.id === item.id);
+
+    // setState((prevState) => {
+    //   if (alreadyExist) {
+    //     return [prevState.filter((item) => item.id !== itemToRemove.id)];
+    //   }
+    //   return prevState;
+    // });
+    console.log("Borrado");
   };
 
   return (
     <AppContext.Provider
       value={{
         addToMyList,
+        removeFromMyList,
       }}
     >
       {children}

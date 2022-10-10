@@ -10,6 +10,8 @@ import { HiMenuAlt1 } from "react-icons/hi";
 import { BiBorderAll } from "react-icons/bi";
 import RowSection from "../../components/RowSection";
 
+Modal.setAppElement("#__next");
+
 export default function Tv({
   genres,
   popular,
@@ -23,7 +25,6 @@ export default function Tv({
 }) {
   const [modalInfo, setModalInfo] = useState("");
   const router = useRouter();
-  Modal.setAppElement("#__next");
   // console.log(modalInfo);
   // console.log(genres);
   // console.log(info)
@@ -49,12 +50,7 @@ export default function Tv({
           </div>
         </div>
 
-        <RowSection
-          title="Popular"
-          setModalInfo={setModalInfo}
-          listData={popular}
-          section="tv"
-        />
+        <RowSection title="Popular" setModalInfo={setModalInfo} listData={popular} section="tv" />
 
         <RowSection
           title="Netflix originals"
@@ -63,47 +59,17 @@ export default function Tv({
           section="tv"
         />
 
-        <RowSection
-          title="Animation"
-          setModalInfo={setModalInfo}
-          listData={animation}
-          section="tv"
-        />
+        <RowSection title="Animation" setModalInfo={setModalInfo} listData={animation} section="tv" />
 
-        <RowSection
-          title="Drama"
-          setModalInfo={setModalInfo}
-          listData={drama}
-          section="tv"
-        />
+        <RowSection title="Drama" setModalInfo={setModalInfo} listData={drama} section="tv" />
 
-        <RowSection
-          title="Documentaries"
-          setModalInfo={setModalInfo}
-          listData={documentaries}
-          section="tv"
-        />
+        <RowSection title="Documentaries" setModalInfo={setModalInfo} listData={documentaries} section="tv" />
 
-        <RowSection
-          title="Western"
-          setModalInfo={setModalInfo}
-          listData={western}
-          section="tv"
-        />
+        <RowSection title="Western" setModalInfo={setModalInfo} listData={western} section="tv" />
 
-        <RowSection
-          title="Kids"
-          setModalInfo={setModalInfo}
-          listData={kids}
-          section="tv"
-        />
+        <RowSection title="Kids" setModalInfo={setModalInfo} listData={kids} section="tv" />
 
-        <RowSection
-          title="Reality"
-          setModalInfo={setModalInfo}
-          listData={reality}
-          section="tv"
-        />
+        <RowSection title="Reality" setModalInfo={setModalInfo} listData={reality} section="tv" />
 
         {router.query.id && (
           <Modal
@@ -140,13 +106,7 @@ export default function Tv({
               },
             }}
           >
-            <ModalLayout
-              section="tv"
-              credits="tv"
-              info={modalInfo}
-              genres={genres}
-              tv={true}
-            />
+            <ModalLayout section="tv" credits="tv" info={modalInfo} genres={genres} tv={true} />
           </Modal>
         )}
       </PageLayout>
@@ -155,29 +115,18 @@ export default function Tv({
 }
 
 export async function getServerSideProps() {
-  const [
-    genres,
-    popular,
-    tvNetflixOriginals,
-    animation,
-    drama,
-    documentaries,
-    western,
-    kids,
-    reality,
-  ] = await Promise.all([
-    fetch(`${BASE_URL}/genre/tv/list?api_key=${API_KEY}&language=en-US`).then(
-      (res) => res.json()
-    ),
-    fetch(requests.fetchPopular).then((res) => res.json()),
-    fetch(requests.fetchTvNetflixOriginals).then((res) => res.json()),
-    fetch(requests.fetchAnimation).then((res) => res.json()),
-    fetch(requests.fetchDrama).then((res) => res.json()),
-    fetch(requests.fetchTvDocumentaries).then((res) => res.json()),
-    fetch(requests.fetchWestern).then((res) => res.json()),
-    fetch(requests.fetchKids).then((res) => res.json()),
-    fetch(requests.fetchReality).then((res) => res.json()),
-  ]);
+  const [genres, popular, tvNetflixOriginals, animation, drama, documentaries, western, kids, reality] =
+    await Promise.all([
+      fetch(`${BASE_URL}/genre/tv/list?api_key=${API_KEY}&language=en-US`).then((res) => res.json()),
+      fetch(requests.fetchPopular).then((res) => res.json()),
+      fetch(requests.fetchTvNetflixOriginals).then((res) => res.json()),
+      fetch(requests.fetchAnimation).then((res) => res.json()),
+      fetch(requests.fetchDrama).then((res) => res.json()),
+      fetch(requests.fetchTvDocumentaries).then((res) => res.json()),
+      fetch(requests.fetchWestern).then((res) => res.json()),
+      fetch(requests.fetchKids).then((res) => res.json()),
+      fetch(requests.fetchReality).then((res) => res.json()),
+    ]);
 
   return {
     props: {

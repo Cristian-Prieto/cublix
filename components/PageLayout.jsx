@@ -12,7 +12,7 @@ export default function PageLayout({ children, title = "Cublix" }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="container relative min-w-full min-h-screen bg-neutral-900">
-        <NavBar></NavBar>
+        <NavBar />
         <main>{children}</main>
         <Footer />
       </div>

@@ -11,7 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { useAppContext } from "./hooks/useAppContext";
+import { useAppContext } from "../hook/useAppContext";
 
 export default function ModalLayout({ info, genres, credits, tv, section }) {
   const [allGenres, setAllGenres] = useState(null);
@@ -22,7 +22,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
   const [actualSeason, setActualSeason] = useState(1);
   const [totalSeasons, setTotalSeasons] = useState(null);
   const [isSeasonsMenuOpen, setIsSeasonsMenuOpen] = useState(false);
-  const { addToMyList, removeFromMyList } = useAppContext();
+  const { addToMyList } = useAppContext();
   const actualYear = new Date();
   const router = useRouter();
 
@@ -32,7 +32,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
 
   useEffect(() => {
     const matchingGenres = genres.filter((genre) =>
-      info.genre_ids.includes(genre.id)
+      info.genre_ids?.includes(genre.id)
     );
     const genresNames = matchingGenres.map((genre) => genre.name);
     setAllGenres(genresNames);
@@ -129,12 +129,11 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
             </Link>
 
             <div
-              onClick={() => addToMyList(info)}
+              onClick={() => addToMyList(info, section)}
               className="group flex border-2 border-slate-300 rounded-full p-2 backdrop-blur-md hover:bg-zinc-500 cursor-pointer"
             >
               <IoMdAdd className="text-xl font-bold opacity-50 group-hover:opacity-100 text-white" />
             </div>
-            <span onClick={() => removeFromMyList()}>DELETE</span>
             <div className="flex border-2 border-slate-300 rounded-full p-2 backdrop-blur-md">
               <AiOutlineLike className="text-xl text-white" />
             </div>

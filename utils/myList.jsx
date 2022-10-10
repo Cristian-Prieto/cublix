@@ -15,30 +15,26 @@ const AppContextComponent = ({ children }) => {
     saveMyListToLocalStorage(state);
   }, [state]);
 
-  // const addToMyList = (itemToAdd) => {
-  //   setState((prevState) => [...prevState, itemToAdd]);
-  //   console.log("---itemToAdd:", itemToAdd);
-  // };
-
-  const addToMyList = (itemToAdd) => {
+  const addToMyList = (itemToAdd, category) => {
     const alreadyExist = state.find((entry) => itemToAdd.id === entry.id);
     setState((prevState) => {
       if (alreadyExist) {
         return prevState;
       }
+      itemToAdd.category = category;
       return [...prevState, itemToAdd];
     });
   };
 
-  const removeFromMyList = () => {
-    // const alreadyExist = state.find((item) => itemToRemove.id === item.id);
+  const removeFromMyList = (itemToRemove) => {
+    const alreadyExist = state.find((item) => itemToRemove.id === item.id);
 
-    // setState((prevState) => {
-    //   if (alreadyExist) {
-    //     return [prevState.filter((item) => item.id !== itemToRemove.id)];
-    //   }
-    //   return prevState;
-    // });
+    setState((prevState) => {
+      if (alreadyExist) {
+        return prevState.filter((item) => item.id !== itemToRemove.id);
+      }
+      return prevState;
+    });
     console.log("Borrado");
   };
 

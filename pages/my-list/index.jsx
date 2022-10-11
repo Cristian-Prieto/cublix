@@ -24,7 +24,7 @@ export default function MyList({ movieGenres, tvGenres }) {
   return (
     <>
       <PageLayout>
-        <div className="flex justify-between">
+        <div className="flex sticky top-0 justify-between py-4 z-20 bg-zinc-900 px-12">
           <div className="flex items-center space-x-12 text-slate-200">
             <span className="text-3xl font-bold">My list</span>
             <span className="flex items-center border-2 border-slate-200 text-xs p-1 px-2 gap-4">
@@ -33,8 +33,8 @@ export default function MyList({ movieGenres, tvGenres }) {
             </span>
           </div>
         </div>
-        <section className="flex w-full">
-          <div className="grid grid-cols-6 w-full gap-2 bg-red-500">
+        <section className="flex w-full p-12">
+          <div className="flex flex-wrap w-full gap-8 whitespace-nowrap">
             {myList &&
               myList.map((entry) => (
                 <div key={entry.id} className="relative flex justify-center">

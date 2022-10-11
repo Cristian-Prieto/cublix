@@ -17,7 +17,6 @@ Modal.setAppElement("#__next");
 
 export default function Movies({
   genres,
-  trending,
   netflixOriginals,
   topRated,
   actionMovies,
@@ -29,12 +28,16 @@ export default function Movies({
   const [randomTrend, setRandomTrend] = useState(null);
   const [modalInfo, setModalInfo] = useState("");
   const router = useRouter();
+
   useEffect(() => {
-    setRandomTrend(
-      trending.results[Math.floor(Math.random() * trending.results.length)]
-    );
+    const randomResult =
+      actionMovies.results[
+        Math.floor(Math.random() * actionMovies.results.length)
+      ];
+
+    setRandomTrend(randomResult);
   }, []);
-  console.log("modalinfo", modalInfo);
+
   return (
     <>
       <PageLayout>
@@ -75,19 +78,11 @@ export default function Movies({
               objectFit="cover"
             />
             <Link
-              href={`/${
-                randomTrend.media_type === "movie" ? "movies" : "tv"
-              }/?id=${randomTrend.id}`}
-              as={`/${randomTrend.media_type}/${randomTrend.id}`}
+              href={`/movies/?id=${randomTrend.id}`}
+              as={`/movies/${randomTrend.id}`}
             >
               <a
-                onClick={() => {
-                  setModalInfo(randomTrend);
-                  console.log(
-                    "esto es la modalinfo/randomrend de setmodalinfo:",
-                    randomTrend
-                  );
-                }}
+                onClick={() => setModalInfo(randomTrend)}
                 className="absolute bg-red-500 cursor-pointer z-10"
               >
                 GOOO
@@ -185,15 +180,10 @@ export default function Movies({
               }}
             >
               <ModalLayout
-                section={modalInfo.media_type ? "tv" : "movies"}
-                credits={
-                  modalInfo.media_type && modalInfo.media_type === "tv"
-                    ? "tv"
-                    : "movie"
-                }
+                section="movies"
+                credits="movie"
                 info={modalInfo}
                 genres={genres}
-                tv={modalInfo.media_type === "tv"}
               />
             </Modal>
           )}
@@ -206,7 +196,6 @@ export default function Movies({
 export async function getServerSideProps() {
   const [
     genres,
-    trending,
     netflixOriginals,
     topRated,
     actionMovies,
@@ -218,7 +207,6 @@ export async function getServerSideProps() {
     fetch(
       `${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`
     ).then((res) => res.json()),
-    fetch(requests.fetchTrending).then((res) => res.json()),
     fetch(requests.fetchNetflixOriginals).then((res) => res.json()),
     fetch(requests.fetchTopRated).then((res) => res.json()),
     fetch(requests.fetchActionMovies).then((res) => res.json()),
@@ -231,7 +219,6 @@ export async function getServerSideProps() {
   return {
     props: {
       genres: genres.genres,
-      trending,
       netflixOriginals,
       topRated,
       actionMovies,

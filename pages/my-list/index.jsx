@@ -45,7 +45,6 @@ export default function MyList({ movieGenres, tvGenres }) {
                   />
                   <Modal
                     className="scrollbar-none"
-                    //!! pasa a booleano
                     isOpen={isModalOpen}
                     onRequestClose={() => toggleModal()}
                     style={{
@@ -79,13 +78,13 @@ export default function MyList({ movieGenres, tvGenres }) {
                     }}
                   >
                     <ModalLayout
-                      section={entry.category}
-                      credits={entry.category === "movies" ? "movie" : "tv"}
                       info={modalInfo}
                       genres={
                         entry.category === "movies" ? movieGenres : tvGenres
                       }
+                      credits={entry.category === "movies" ? "movie" : "tv"}
                       tv={entry.category === "tv" ? true : false}
+                      section={entry.category}
                     />
                   </Modal>
                 </div>

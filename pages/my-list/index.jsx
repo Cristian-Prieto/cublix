@@ -34,10 +34,10 @@ export default function MyList({ movieGenres, tvGenres }) {
           </div>
         </div>
         <section className="flex w-full">
-          <div className="grid grid-cols-6 w-full gap-4">
+          <div className="grid grid-cols-6 w-full gap-2 bg-red-500">
             {myList &&
               myList.map((entry) => (
-                <div key={entry.id} className="relative flex">
+                <div key={entry.id} className="relative flex justify-center">
                   <Link
                     href={`/my-list/?id=${entry.id}`}
                     as={`/my-list/${entry.id}`}

@@ -9,7 +9,7 @@ export default function Thumbnail({ item }) {
         src={`${BASE_IMAGE_URL}${item.backdrop_path ?? item.poster_path}`}
         alt={item.name}
         layout="fixed"
-        width={200}
+        width={230}
         height={120}
         className="object-cover absolute cursor-pointer rounded-sm"
       />

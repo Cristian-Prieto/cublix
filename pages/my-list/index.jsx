@@ -6,20 +6,18 @@ import { useEffect, useState } from "react";
 import ModalLayout from "../../components/ModalLayout";
 import Modal from "react-modal";
 import { BASE_URL, API_KEY } from "../../utils/requests";
-// import useRouter from "next/router";
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+Modal.setAppElement("#__next");
 
 export default function MyList({ movieGenres, tvGenres }) {
-  // const router = useRouter();
+  const router = useRouter();
   const [modalInfo, setModalInfo] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [myList, setMyList] = useState(getMyListFromLocalStorage());
+  const [myList, setMyList] = useState([]);
   useEffect(() => {
     setMyList(getMyListFromLocalStorage());
   }, []);
-
-  const toggleModal = () => {
-    setIsModalOpen((prevState) => !prevState);
-  };
 
   return (
     <>
@@ -38,60 +36,62 @@ export default function MyList({ movieGenres, tvGenres }) {
             {myList &&
               myList.map((entry) => (
                 <div key={entry.id}>
-                  <Thumbnail
-                    handleClick={() => setModalInfo(entry)}
-                    item={entry}
-                    section={entry.category === "tv" ? "tv" : "movies"}
-                  />
-                  <Modal
-                    className="scrollbar-none"
-                    isOpen={isModalOpen}
-                    onRequestClose={() => toggleModal()}
-                    style={{
-                      overlay: {
-                        position: "fixed",
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        backgroundColor: "rgba(0, 0, 0, 0.75",
-                        zIndex: 50,
-                      },
-                      content: {
-                        position: "absolute",
-                        top: "40px",
-                        left: "0",
-                        right: "0",
-                        marginLeft: "auto",
-                        marginRight: "auto",
-                        bottom: "0",
-                        border: "none",
-                        maxWidth: "800px",
-                        background: "#000",
-                        overflow: "auto",
-                        WebkitOverflowScrolling: "touch",
-                        borderRadius: "8px",
-                        outline: "none",
-                        padding: "0",
-                        boxShadow: "0px 0px 25px 8px rgba(0,0,0,0.5)",
-                      },
-                    }}
+                  <Link
+                    href={`/my-list/?id=${entry.id}`}
+                    as={`/my-list/${entry.id}`}
                   >
-                    <ModalLayout
-                      info={modalInfo}
-                      genres={
-                        entry.category === "movies" ? movieGenres : tvGenres
-                      }
-                      credits={entry.category === "movies" ? "movie" : "tv"}
-                      tv={entry.category === "tv" ? true : false}
-                      section={entry.category}
-                    />
-                  </Modal>
+                    <a onClick={() => setModalInfo(entry)}>
+                      <Thumbnail item={entry} />
+                    </a>
+                  </Link>
                 </div>
               ))}
           </div>
         </section>
       </PageLayout>
+      <Modal
+        className="scrollbar-none"
+        //!! pasa a booleano
+        isOpen={!!router.query.id}
+        onRequestClose={() => router.push("/my-list")}
+        style={{
+          overlay: {
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.75",
+            zIndex: 50,
+          },
+          content: {
+            position: "absolute",
+            top: "40px",
+            left: "0",
+            right: "0",
+            marginLeft: "auto",
+            marginRight: "auto",
+            bottom: "0",
+            border: "none",
+            maxWidth: "800px",
+            background: "#000",
+            overflow: "auto",
+            WebkitOverflowScrolling: "touch",
+            borderRadius: "8px",
+            outline: "none",
+            padding: "0",
+            boxShadow: "0px 0px 25px 8px rgba(0,0,0,0.5)",
+          },
+        }}
+      >
+        <ModalLayout
+          section={modalInfo.category}
+          credits={modalInfo.category === "movies" ? "movie" : "tv"}
+          info={modalInfo}
+          genres={modalInfo.category === "movies" ? movieGenres : tvGenres}
+          tv={modalInfo.category === "tv"}
+        />
+      </Modal>
     </>
   );
 }

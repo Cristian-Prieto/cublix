@@ -12,6 +12,8 @@ import { HiMenuAlt1 } from "react-icons/hi";
 import { BiBorderAll } from "react-icons/bi";
 import RowSection from "../../components/RowSection";
 
+Modal.setAppElement("#__next");
+
 export default function Movies({
   genres,
   trending,
@@ -27,13 +29,10 @@ export default function Movies({
   const [randomTrend, setRandomTrend] = useState(null);
   const [modalInfo, setModalInfo] = useState("");
   const router = useRouter();
-  Modal.setAppElement("#__next");
   console.log();
 
   useEffect(() => {
-    setRandomTrend(
-      trending.results[Math.floor(Math.random() * trending.results.length)]
-    );
+    setRandomTrend(trending.results[Math.floor(Math.random() * trending.results.length)]);
   }, []);
 
   return (
@@ -59,23 +58,37 @@ export default function Movies({
         </div>
 
         {randomTrend && (
-          <div className="absolute">
+          <div className="h-96 relative">
+            <div className="z-10 bottom-16 left-0 absolute w-full p-16 pt-4 bg-white/30">
+              <h1 className="text-3xl text-white">{randomTrend.title}</h1>
+              <p>{randomTrend.overview}</p>
+            </div>
             <Image
-              src={`${BASE_IMAGE_URL}${
-                randomTrend.backdrop_path ?? randomTrend.poster_path
-              }`}
+              src={`${BASE_IMAGE_URL}${randomTrend.backdrop_path ?? randomTrend.poster_path}`}
               alt={`image for ${randomTrend.title}`}
               layout="fill"
               objectFit="cover"
-            ></Image>
+            />
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-zinc-900" />
+            {/* <div className="z-20 h-96 bg-gradient-to-b from-transparent via-transparent to-red-400" /> */}
+          </div>
+        )}
+        {/* {randomTrend && (
+          <div className="absolute">
+            <Image
+              src={`${BASE_IMAGE_URL}${randomTrend.backdrop_path ?? randomTrend.poster_path}`}
+              alt={`image for ${randomTrend.title}`}
+              layout="fill"
+              objectFit="cover"
+            />
 
             <h1 className="text-3xl text-white">{randomTrend.title}</h1>
             <p>{randomTrend.overview}</p>
           </div>
-        )}
+        )} */}
 
         {/*row lists*/}
-        <div className="flex flex-col">
+        <div className="flex flex-col -mt-4">
           <RowSection
             title="Netflix originals"
             setModalInfo={setModalInfo}
@@ -83,12 +96,7 @@ export default function Movies({
             section="movies"
           />
 
-          <RowSection
-            title="Top rated"
-            setModalInfo={setModalInfo}
-            listData={topRated}
-            section="movies"
-          />
+          <RowSection title="Top rated" setModalInfo={setModalInfo} listData={topRated} section="movies" />
 
           <RowSection
             title="Action movies"
@@ -161,12 +169,7 @@ export default function Movies({
                 },
               }}
             >
-              <ModalLayout
-                section="movies"
-                credits="movie"
-                info={modalInfo}
-                genres={genres}
-              />
+              <ModalLayout section="movies" credits="movie" info={modalInfo} genres={genres} />
             </Modal>
           )}
         </div>
@@ -187,9 +190,7 @@ export async function getServerSideProps() {
     romanceMovies,
     documentaries,
   ] = await Promise.all([
-    fetch(
-      `${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`
-    ).then((res) => res.json()),
+    fetch(`${BASE_URL}/genre/movie/list?api_key=${API_KEY}&language=en-US`).then((res) => res.json()),
     fetch(requests.fetchTrending).then((res) => res.json()),
     fetch(requests.fetchNetflixOriginals).then((res) => res.json()),
     fetch(requests.fetchTopRated).then((res) => res.json()),

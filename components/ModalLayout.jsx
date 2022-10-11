@@ -3,11 +3,7 @@ import { BASE_IMAGE_URL } from "../utils/images";
 import { BASE_URL, API_KEY } from "../utils/requests";
 import { IoPlaySharp, IoCaretDown, IoCaretUp } from "react-icons/io5";
 import { IoMdAdd } from "react-icons/io";
-import {
-  AiOutlineLike,
-  AiOutlineCloseCircle,
-  AiOutlinePlayCircle,
-} from "react-icons/ai";
+import { AiOutlineLike, AiOutlineCloseCircle, AiOutlinePlayCircle } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -31,17 +27,13 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
   };
 
   useEffect(() => {
-    const matchingGenres = genres.filter((genre) =>
-      info.genre_ids?.includes(genre.id)
-    );
+    const matchingGenres = genres.filter((genre) => info.genre_ids?.includes(genre.id));
     const genresNames = matchingGenres.map((genre) => genre.name);
     setAllGenres(genresNames);
   }, []);
 
   useEffect(() => {
-    fetch(
-      `${BASE_URL}/${credits}/${info.id}/credits?api_key=${API_KEY}&language=en-US`
-    )
+    fetch(`${BASE_URL}/${credits}/${info.id}/credits?api_key=${API_KEY}&language=en-US`)
       .then((res) => res.json())
       .then((jsonData) => {
         setGetCast(jsonData.cast.map((item) => item.name));
@@ -58,9 +50,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
           setTotalSeasons(jsonData.number_of_seasons);
         });
     } else {
-      fetch(
-        `${BASE_URL}/movie/${info.id}/recommendations?api_key=${API_KEY}&language=en-US&page=1`
-      )
+      fetch(`${BASE_URL}/movie/${info.id}/recommendations?api_key=${API_KEY}&language=en-US&page=1`)
         .then((res) => res.json())
         .then((jsonData) => {
           setRecomendations(jsonData.results);
@@ -72,9 +62,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
 
   useEffect(() => {
     if (seasons) {
-      fetch(
-        `${BASE_URL}/tv/${seasons.id}/season/${actualSeason}?api_key=${API_KEY}&language=en-US`
-      )
+      fetch(`${BASE_URL}/tv/${seasons.id}/season/${actualSeason}?api_key=${API_KEY}&language=en-US`)
         .then((res) => res.json())
         .then((jsonData) => {
           setSeasonsData(jsonData);
@@ -114,9 +102,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
           objectFit="cover"
         ></Image>
         <div className="flex flex-col absolute bottom-0 text-xl p-12 gap-4">
-          <h2 className="text-3xl drop-shadow-2xl">
-            {info.title || info.name}
-          </h2>
+          <h2 className="text-3xl drop-shadow-2xl">{info.title || info.name}</h2>
 
           <div className="flex gap-4 items-center">
             <Link href={`/${section}/${info.id}`}>
@@ -144,17 +130,11 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
       <section className="flex text-white p-12 gap-4 bg-zinc-900">
         <article className="w-4/6">
           <h3 className="flex gap-4 mb-8">
-            <span className="font-bold text-green-500">
-              {Math.floor(info.vote_average) * 10}% Match
-            </span>
+            <span className="font-bold text-green-500">{Math.floor(info.vote_average) * 10}% Match</span>
             {seasons ? (
               <span>{seasons.first_air_date.slice(0, 4)}</span>
             ) : (
-              <span>
-                {info.release_date
-                  ? info.release_date
-                  : actualYear.getFullYear()}
-              </span>
+              <span>{info.release_date ? info.release_date : actualYear.getFullYear()}</span>
             )}
 
             {seasons && (
@@ -173,9 +153,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
           {getCast && getCast ? (
             <h3 className="text-zinc-500">
               Cast:
-              <span className="pl-2 text-white">
-                {getCast.slice(0, 6).toString()}
-              </span>
+              <span className="pl-2 text-white">{getCast.slice(0, 6).toString()}</span>
             </h3>
           ) : null}
           {allGenres && allGenres.length > 0 ? (
@@ -210,9 +188,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
                 </Link>
 
                 <Image
-                  src={`${BASE_IMAGE_URL}${
-                    recomend.backdrop_path ?? recomend.poster_path
-                  }`}
+                  src={`${BASE_IMAGE_URL}${recomend.backdrop_path ?? recomend.poster_path}`}
                   alt={recomend.title}
                   width={300}
                   height={180}
@@ -220,9 +196,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
                 <div className="flex flex-col gap-2 p-4">
                   <h3 className="font-bold">{recomend.title}</h3>
                   <span className="font-thin">
-                    {recomend.release_date
-                      ? info.release_date.slice(0, 4)
-                      : actualYear.getFullYear()}
+                    {recomend.release_date ? info.release_date.slice(0, 4) : actualYear.getFullYear()}
                   </span>
                   <p className="mt-4 text-sm max-h-20 overflow-y-scroll scrollbar-none text-zinc-300">
                     {recomend.overview}
@@ -245,9 +219,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
                   className="flex w-48 gap-8 items-center justify-center rounded-md border border-zinc-500 bg-zinc-800 font-normal text-xl px-4 py-2"
                 >
                   season {actualSeason}
-                  {seasons.number_of_seasons > 1 && (
-                    <IoCaretDown className="text-lg ml-auto" />
-                  )}
+                  {seasons.number_of_seasons > 1 && <IoCaretDown className="text-lg ml-auto" />}
                 </button>
               </div>
               {seasons.number_of_seasons > 1 && isSeasonsMenuOpen && (
@@ -259,9 +231,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
                       className="w-full px-4 py-2 hover:bg-zinc-500 cursor-pointer"
                     >
                       Season {totalSeasons === 1 ? null : item}
-                      <span className="text-sm pl-4 font-thin">
-                        ({seasons.number_of_seasons} episodes)
-                      </span>
+                      <span className="text-sm pl-4 font-thin">({seasons.number_of_seasons} episodes)</span>
                     </span>
                   ))}
                 </div>
@@ -286,9 +256,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
                     src={
                       episode.still_path
                         ? `${BASE_IMAGE_URL}${episode.still_path}`
-                        : `${BASE_IMAGE_URL}${
-                            info.poster_path ?? info.backdrop_path
-                          }`
+                        : `${BASE_IMAGE_URL}${info.poster_path ?? info.backdrop_path}`
                     }
                     alt={episode.id}
                     layout="fill"
@@ -298,11 +266,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
                 <div className="flex flex-col w-full">
                   <h3 className="flex justify-between mb-2">
                     <span className="auto max-w-xs">{episode.name}</span>
-                    {episode.runtime && (
-                      <span className="text-zinc-100">
-                        {episode.runtime} min.
-                      </span>
-                    )}
+                    {episode.runtime && <span className="text-zinc-100">{episode.runtime} min.</span>}
                   </h3>
 
                   <span className="text-sm max-w-xs max-h-20 overflow-hidden text-zinc-400">

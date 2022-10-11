@@ -35,7 +35,6 @@ const AppContextComponent = ({ children }) => {
       }
       return prevState;
     });
-    console.log("Borrado");
   };
 
   return (

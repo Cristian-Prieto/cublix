@@ -19,6 +19,8 @@ export default function MyList({ movieGenres, tvGenres }) {
     setMyList(getMyListFromLocalStorage());
   }, []);
 
+  console.log("modalInfo de my list:", modalInfo);
+
   return (
     <>
       <PageLayout>
@@ -35,7 +37,7 @@ export default function MyList({ movieGenres, tvGenres }) {
           <div className="grid grid-cols-6 w-full gap-4">
             {myList &&
               myList.map((entry) => (
-                <div key={entry.id}>
+                <div key={entry.id} className="relative flex">
                   <Link
                     href={`/my-list/?id=${entry.id}`}
                     as={`/my-list/${entry.id}`}

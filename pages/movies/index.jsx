@@ -1,17 +1,16 @@
-import PageLayout from "../../components/PageLayout";
-import requests from "../../utils/requests";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
+import Link from "next/link";
+import Modal from "react-modal";
 import { BASE_URL, API_KEY } from "../../utils/requests";
 import { BASE_IMAGE_URL } from "../../utils/images";
-import Modal from "react-modal";
+import PageLayout from "../../components/PageLayout";
+import requests from "../../utils/requests";
 import ModalLayout from "../../components/ModalLayout";
-import { IoCaretDown } from "react-icons/io5";
-import { HiMenuAlt1 } from "react-icons/hi";
-import { BiBorderAll } from "react-icons/bi";
+import { IoMdInformationCircleOutline } from "react-icons/io";
 import RowSection from "../../components/RowSection";
-import Link from "next/link";
+import { IoPlaySharp } from "react-icons/io5";
 
 Modal.setAppElement("#__next");
 
@@ -28,6 +27,7 @@ export default function Movies({
   const [randomTrend, setRandomTrend] = useState(null);
   const [modalInfo, setModalInfo] = useState("");
   const router = useRouter();
+  const [genreSelected, setGenreSelected] = useState(null);
 
   useEffect(() => {
     const randomResult =
@@ -38,35 +38,47 @@ export default function Movies({
     setRandomTrend(randomResult);
   }, []);
 
+  const handleSelectedGenre = (genre) => {
+    setGenreSelected(genre);
+  };
+
   return (
     <>
-      <PageLayout>
-        <div className="flex sticky top-0 justify-between py-4 z-20 bg-zinc-900 px-12">
-          <div className="flex items-center space-x-12 text-slate-200">
-            <span className="sm:text-3xl font-bold">Movies</span>
-            <span className="flex items-center border-2 border-slate-200 text-xs p-1 px-2 gap-4">
-              Categories
-              <IoCaretDown />
-            </span>
-            <div></div>
-          </div>
-          <div className="flex sm:text-md text-slate-200">
-            <div className="flex items-center px-4 border border-slate-200">
-              <HiMenuAlt1 />
-            </div>
-            <div className="flex items-center px-4 border border-slate-200">
-              <BiBorderAll />
-            </div>
-          </div>
-        </div>
-
+      <PageLayout
+        section="Movies"
+        genreSelected={genreSelected}
+        setGenreSelected={setGenreSelected}
+        genres={genres}
+        selectGenre={handleSelectedGenre}
+      >
         {randomTrend && (
           <div className="h-96 relative">
-            <div className="z-10 bottom-0 left-0 absolute md:w-1/2 p-12 pt-4 text-white">
+            <div className="flex flex-col gap-4 z-10 bottom-0 left-0 absolute md:w-1/2 p-12 pt-4 text-white">
               <h1 className="text-3xl text-white">
                 {randomTrend.title || randomTrend.name}
               </h1>
               <p>{randomTrend.overview}</p>
+              <div className="flex gap-4">
+                <Link href={`/movies/${randomTrend.id}`}>
+                  <a className="flex gap-2 font-semibold items-center justify-center rounded-md px-4 py-2 text-black bg-slate-100 bg-opacity-100 hover:bg-opacity-80">
+                    <IoPlaySharp className="text-3xl" />
+                    <span>Play</span>
+                  </a>
+                </Link>
+
+                <Link
+                  href={`/movies/?id=${randomTrend.id}`}
+                  as={`/movies/${randomTrend.id}`}
+                >
+                  <a
+                    onClick={() => setModalInfo(randomTrend)}
+                    className="flex gap-2 font-semibold items-center justify-center rounded-md px-4 py-2 text-white bg-zinc-500 hover:bg-zinc-700 bg-opacity-50 hover:bg-opacity-50"
+                  >
+                    <IoMdInformationCircleOutline className="text-3xl" />
+                    <span>Info</span>
+                  </a>
+                </Link>
+              </div>
             </div>
 
             <Image
@@ -77,69 +89,99 @@ export default function Movies({
               layout="fill"
               objectFit="cover"
             />
-            <Link
-              href={`/movies/?id=${randomTrend.id}`}
-              as={`/movies/${randomTrend.id}`}
-            >
-              <a
-                onClick={() => setModalInfo(randomTrend)}
-                className="absolute bg-red-500 cursor-pointer z-10"
-              >
-                GOOO
-              </a>
-            </Link>
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-zinc-900" />
           </div>
         )}
 
-        {/*row lists*/}
         <div className="flex flex-col">
           <RowSection
             title="Netflix originals"
             setModalInfo={setModalInfo}
-            listData={netflixOriginals}
+            listData={
+              genreSelected
+                ? netflixOriginals.results.filter((original) =>
+                    original.genre_ids.includes(genreSelected.id)
+                  )
+                : netflixOriginals.results
+            }
             section="movies"
           />
 
           <RowSection
             title="Top rated"
             setModalInfo={setModalInfo}
-            listData={topRated}
+            listData={
+              genreSelected
+                ? topRated.results.filter((original) =>
+                    original.genre_ids.includes(genreSelected.id)
+                  )
+                : topRated.results
+            }
             section="movies"
           />
 
           <RowSection
             title="Action movies"
             setModalInfo={setModalInfo}
-            listData={actionMovies}
+            listData={
+              genreSelected
+                ? actionMovies.results.filter((original) =>
+                    original.genre_ids.includes(genreSelected.id)
+                  )
+                : actionMovies.results
+            }
             section="movies"
           />
 
           <RowSection
             title="Comedy movies"
             setModalInfo={setModalInfo}
-            listData={comedyMovies}
+            listData={
+              genreSelected
+                ? comedyMovies.results.filter((original) =>
+                    original.genre_ids.includes(genreSelected.id)
+                  )
+                : comedyMovies.results
+            }
             section="movies"
           />
 
           <RowSection
             title="Horror movies"
             setModalInfo={setModalInfo}
-            listData={horrorMovies}
+            listData={
+              genreSelected
+                ? horrorMovies.results.filter((original) =>
+                    original.genre_ids.includes(genreSelected.id)
+                  )
+                : horrorMovies.results
+            }
             section="movies"
           />
 
           <RowSection
             title="Romance movies"
             setModalInfo={setModalInfo}
-            listData={romanceMovies}
+            listData={
+              genreSelected
+                ? romanceMovies.results.filter((original) =>
+                    original.genre_ids.includes(genreSelected.id)
+                  )
+                : romanceMovies.results
+            }
             section="movies"
           />
 
           <RowSection
             title="Documentaries"
             setModalInfo={setModalInfo}
-            listData={documentaries}
+            listData={
+              genreSelected
+                ? documentaries.results.filter((original) =>
+                    original.genre_ids.includes(genreSelected.id)
+                  )
+                : documentaries.results
+            }
             section="movies"
           />
 

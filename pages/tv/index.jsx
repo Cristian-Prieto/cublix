@@ -1,17 +1,16 @@
-import PageLayout from "../../components/PageLayout";
-import requests from "../../utils/requests";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import PageLayout from "../../components/PageLayout";
 import { BASE_URL, API_KEY } from "../../utils/requests";
 import { BASE_IMAGE_URL } from "../../utils/images";
 import Image from "next/image";
 import Link from "next/link";
 import Modal from "react-modal";
-import ModalLayout from "../../components/ModalLayout";
-import { IoCaretDown } from "react-icons/io5";
-import { HiMenuAlt1 } from "react-icons/hi";
-import { BiBorderAll } from "react-icons/bi";
+import requests from "../../utils/requests";
 import RowSection from "../../components/RowSection";
+import ModalLayout from "../../components/ModalLayout";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+import { IoPlaySharp } from "react-icons/io5";
 
 Modal.setAppElement("#__next");
 
@@ -26,6 +25,7 @@ export default function Tv({
   kids,
   reality,
 }) {
+  const [genreSelected, setGenreSelected] = useState(null);
   const [modalInfo, setModalInfo] = useState("");
   const [randomTrend, setRandomTrend] = useState(null);
   const router = useRouter();
@@ -33,38 +33,50 @@ export default function Tv({
   useEffect(() => {
     const randomResult =
       popular.results[Math.floor(Math.random() * popular.results.length)];
-
     setRandomTrend(randomResult);
   }, []);
 
+  const handleSelectedGenre = (genre) => {
+    setGenreSelected(genre);
+  };
+
   return (
     <>
-      <PageLayout>
-        <div className="flex sticky top-0 justify-between py-4 z-20 bg-zinc-900 px-12">
-          <div className="flex items-center space-x-12 text-slate-200">
-            <span className="sm:text-3xl font-bold">Tv Shows</span>
-            <span className="flex items-center border-2 border-slate-200 text-xs p-1 px-2 gap-4">
-              Categories
-              <IoCaretDown />
-            </span>
-          </div>
-          <div className="flex sm:text-md text-slate-200">
-            <div className="flex items-center px-4 border border-slate-200">
-              <HiMenuAlt1 />
-            </div>
-            <div className="flex items-center px-4 border border-slate-200">
-              <BiBorderAll />
-            </div>
-          </div>
-        </div>
-
+      <PageLayout
+        section="Tv shows"
+        genreSelected={genreSelected}
+        setGenreSelected={setGenreSelected}
+        genres={genres}
+        selectGenre={handleSelectedGenre}
+      >
         {randomTrend && (
           <div className="h-96 relative">
-            <div className="z-10 bottom-0 left-0 absolute md:w-1/2 p-12 pt-4 text-white">
+            <div className="flex flex-col gap-4 z-10 bottom-0 left-0 absolute md:w-1/2 p-12 pt-4 text-white">
               <h1 className="text-3xl text-white">
                 {randomTrend.title || randomTrend.name}
               </h1>
               <p>{randomTrend.overview}</p>
+              <div className="flex gap-4">
+                <Link href={`/tv/${randomTrend.id}`}>
+                  <a className="flex gap-2 font-semibold items-center justify-center rounded-md px-4 py-2 text-black bg-slate-100 bg-opacity-100 hover:bg-opacity-80">
+                    <IoPlaySharp className="text-3xl" />
+                    <span>Play</span>
+                  </a>
+                </Link>
+
+                <Link
+                  href={`/tv/?id=${randomTrend.id}`}
+                  as={`/tv/${randomTrend.id}`}
+                >
+                  <a
+                    onClick={() => setModalInfo(randomTrend)}
+                    className="flex gap-2 font-semibold items-center justify-center rounded-md px-4 py-2 text-white bg-zinc-500 hover:bg-zinc-700 bg-opacity-50 hover:bg-opacity-50"
+                  >
+                    <IoMdInformationCircleOutline className="text-3xl" />
+                    <span>Info</span>
+                  </a>
+                </Link>
+              </div>
             </div>
 
             <Image
@@ -75,17 +87,6 @@ export default function Tv({
               layout="fill"
               objectFit="cover"
             />
-            <Link
-              href={`/tv/?id=${randomTrend.id}`}
-              as={`/tv/${randomTrend.id}`}
-            >
-              <a
-                onClick={() => setModalInfo(randomTrend)}
-                className="absolute bg-red-500 cursor-pointer z-10"
-              >
-                GOOO
-              </a>
-            </Link>
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-zinc-900" />
           </div>
         )}
@@ -93,56 +94,104 @@ export default function Tv({
         <RowSection
           title="Popular"
           setModalInfo={setModalInfo}
-          listData={popular}
+          listData={
+            genreSelected
+              ? popular.results.filter((original) =>
+                  original.genre_ids.includes(genreSelected.id)
+                )
+              : popular.results
+          }
           section="tv"
         />
 
         <RowSection
           title="Netflix originals"
           setModalInfo={setModalInfo}
-          listData={tvNetflixOriginals}
+          listData={
+            genreSelected
+              ? tvNetflixOriginals.results.filter((original) =>
+                  original.genre_ids.includes(genreSelected.id)
+                )
+              : tvNetflixOriginals.results
+          }
           section="tv"
         />
 
         <RowSection
           title="Animation"
           setModalInfo={setModalInfo}
-          listData={animation}
+          listData={
+            genreSelected
+              ? animation.results.filter((original) =>
+                  original.genre_ids.includes(genreSelected.id)
+                )
+              : animation.results
+          }
           section="tv"
         />
 
         <RowSection
           title="Drama"
           setModalInfo={setModalInfo}
-          listData={drama}
+          listData={
+            genreSelected
+              ? drama.results.filter((original) =>
+                  original.genre_ids.includes(genreSelected.id)
+                )
+              : drama.results
+          }
           section="tv"
         />
 
         <RowSection
           title="Documentaries"
           setModalInfo={setModalInfo}
-          listData={documentaries}
+          listData={
+            genreSelected
+              ? documentaries.results.filter((original) =>
+                  original.genre_ids.includes(genreSelected.id)
+                )
+              : documentaries.results
+          }
           section="tv"
         />
 
         <RowSection
           title="Western"
           setModalInfo={setModalInfo}
-          listData={western}
+          listData={
+            genreSelected
+              ? western.results.filter((original) =>
+                  original.genre_ids.includes(genreSelected.id)
+                )
+              : western.results
+          }
           section="tv"
         />
 
         <RowSection
           title="Kids"
           setModalInfo={setModalInfo}
-          listData={kids}
+          listData={
+            genreSelected
+              ? kids.results.filter((original) =>
+                  original.genre_ids.includes(genreSelected.id)
+                )
+              : kids.results
+          }
           section="tv"
         />
 
         <RowSection
           title="Reality"
           setModalInfo={setModalInfo}
-          listData={reality}
+          listData={
+            genreSelected
+              ? reality.results.filter((original) =>
+                  original.genre_ids.includes(genreSelected.id)
+                )
+              : reality.results
+          }
           section="tv"
         />
 

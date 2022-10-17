@@ -1,8 +1,38 @@
 import Head from "next/head";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
+import { IoCaretDown } from "react-icons/io5";
+import { HiMenuAlt1 } from "react-icons/hi";
+import { BiBorderAll } from "react-icons/bi";
+import { useEffect, useState } from "react";
+import { IoIosArrowBack } from "react-icons/io";
 
-export default function PageLayout({ children, title = "Cublix" }) {
+export default function PageLayout({
+  genreSelected,
+  setGenreSelected,
+  selectGenre,
+  section,
+  genres,
+  children,
+  title = "Cublix",
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen((prevState) => !prevState);
+  };
+
+  useEffect(() => {
+    const closeGenresMenu = (event) => {
+      if (event.path[0].tagName !== "BUTTON") {
+        setIsOpen(false);
+      }
+    };
+    document.body.addEventListener("click", closeGenresMenu);
+
+    return document.body.addEventListener("click", closeGenresMenu);
+  }, []);
+
   return (
     <>
       <Head>
@@ -13,7 +43,55 @@ export default function PageLayout({ children, title = "Cublix" }) {
       </Head>
       <div className="container relative min-w-full min-h-screen bg-neutral-900">
         <NavBar />
-        <main>{children}</main>
+        <main>
+          <div className="flex sticky top-0 justify-between py-4 z-20 bg-zinc-900 px-12">
+            <div className="flex items-center space-x-8 text-slate-200">
+              <span className="sm:text-3xl font-bold">{section}</span>
+
+              {genreSelected ? (
+                <>
+                  <IoIosArrowBack
+                    onClick={() => setGenreSelected(null)}
+                    className="text-3xl text-slate-300 cursor-pointer hover:text-white"
+                  />
+                  <h2 className="text-xl">{genreSelected.name}</h2>
+                </>
+              ) : (
+                <div className="flex flex-col justify-center items-center ">
+                  <button
+                    onClick={toggleMenu}
+                    className="flex items-center border-2 border-slate-200 text-xs p-1 px-2 gap-4"
+                  >
+                    Categories
+                    <IoCaretDown />
+                  </button>
+                  {isOpen && (
+                    <ul className="grid grid-cols-3 left-0 text-left p-4 gap-2 border-t-2 border-slate-200 bg-black bg-opacity-90 absolute top-full text-sm">
+                      {genres.map((genre) => (
+                        <li
+                          key={genre.name}
+                          onClick={() => selectGenre(genre)}
+                          className="hover:underline cursor-pointer"
+                        >
+                          {genre.name}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
+            </div>
+            <div className="flex sm:text-md text-slate-200">
+              <div className="flex items-center px-4 border border-slate-200">
+                <HiMenuAlt1 />
+              </div>
+              <div className="flex items-center px-4 border border-slate-200">
+                <BiBorderAll />
+              </div>
+            </div>
+          </div>
+          {children}
+        </main>
         <Footer />
       </div>
     </>

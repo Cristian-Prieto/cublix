@@ -12,7 +12,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useAppContext } from "../hook/useAppContext";
-import { getMyListFromLocalStorage } from "../utils/localStorage";
+import {
+  getMyListFromLocalStorage,
+  saveMyListToLocalStorage,
+} from "../utils/localStorage";
 
 export default function ModalLayout({ info, genres, credits, tv, section }) {
   const [allGenres, setAllGenres] = useState(null);
@@ -23,7 +26,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
   const [actualSeason, setActualSeason] = useState(1);
   const [totalSeasons, setTotalSeasons] = useState(null);
   const [isSeasonsMenuOpen, setIsSeasonsMenuOpen] = useState(false);
-  const { addToMyList, removeFromMyList } = useAppContext();
+  const { addToMyList, removeFromMyList, stateList } = useAppContext();
   const actualYear = new Date();
   const router = useRouter();
 
@@ -31,10 +34,22 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
     setIsSeasonsMenuOpen((prevState) => !prevState);
   };
 
-  const lsList = getMyListFromLocalStorage();
-  const alreadyExist = lsList.find((entry) => info.id === entry.id);
+  const alreadyExist = stateList.find((entry) => info.id === entry.id);
 
-  console.log("info dentro del modal:", info);
+  useEffect(() => {
+    console.log(info);
+    saveMyListToLocalStorage(getMyListFromLocalStorage());
+  }, [stateList]);
+
+  useEffect(() => {
+    if (info) {
+      document.body.style = "overflow: hidden;";
+    }
+
+    return () => {
+      document.body.style = "";
+    };
+  }, [info]);
 
   useEffect(() => {
     const matchingGenres = genres.filter((genre) =>
@@ -138,13 +153,25 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
                 className="group flex border-2 border-slate-300 rounded-full p-2 backdrop-blur-md hover:bg-zinc-500 cursor-pointer"
               >
                 <IoMdRemove className="text-xl font-bold opacity-50 group-hover:opacity-100 text-white" />
+                <div className="invisible group-hover:visible absolute rounded-md p-2 bg-orange-50 shadow-xl -mt-20 -ml-20 w-48 text-center">
+                  <span className="z-50 text-black text-lg font-bold">
+                    Remove from list
+                  </span>
+                </div>
               </div>
             ) : (
-              <div
-                onClick={() => addToMyList(info, section)}
-                className="group flex border-2 border-slate-300 rounded-full p-2 backdrop-blur-md hover:bg-zinc-500 cursor-pointer"
-              >
-                <IoMdAdd className="text-xl font-bold opacity-50 group-hover:opacity-100 text-white" />
+              <div>
+                <div
+                  onClick={() => addToMyList(info, section)}
+                  className="group flex border-2 border-slate-300 rounded-full p-2 backdrop-blur-md hover:bg-zinc-500 cursor-pointer"
+                >
+                  <IoMdAdd className="text-xl font-bold opacity-50 group-hover:opacity-100 text-white" />
+                  <div className="invisible group-hover:visible absolute rounded-md p-2 bg-orange-50 shadow-xl -mt-20 -ml-16 w-36 text-center">
+                    <span className="z-50 text-black text-lg font-bold">
+                      Add to my list
+                    </span>
+                  </div>
+                </div>
               </div>
             )}
 

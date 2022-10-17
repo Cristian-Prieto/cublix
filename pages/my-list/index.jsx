@@ -1,9 +1,13 @@
 import PageLayout from "../../components/PageLayout";
-import { IoCaretDown } from "react-icons/io5";
 import Thumbnail from "../../components/Thumbnail";
-import { getMyListFromLocalStorage } from "../../utils/localStorage";
+import DisplayContainer from "../../components/DisplayContainer";
 import { useEffect, useState } from "react";
 import ModalLayout from "../../components/ModalLayout";
+import {
+  getMyListFromLocalStorage,
+  saveMyListToLocalStorage,
+} from "../../utils/localStorage";
+import { useAppContext } from "../../hook/useAppContext";
 import Modal from "react-modal";
 import { BASE_URL, API_KEY } from "../../utils/requests";
 import Link from "next/link";
@@ -13,42 +17,34 @@ Modal.setAppElement("#__next");
 
 export default function MyList({ movieGenres, tvGenres }) {
   const router = useRouter();
+  const { stateList } = useAppContext();
   const [modalInfo, setModalInfo] = useState("");
-  const [myList, setMyList] = useState([]);
-  useEffect(() => {
-    setMyList(getMyListFromLocalStorage());
-  }, []);
 
-  console.log("modalInfo de my list:", modalInfo);
+  useEffect(() => {
+    saveMyListToLocalStorage(getMyListFromLocalStorage());
+  }, []);
 
   return (
     <>
-      <PageLayout>
-        <div className="flex sticky top-0 justify-between py-4 z-20 bg-zinc-900 px-12">
-          <div className="flex items-center space-x-12 text-slate-200">
-            <span className="text-3xl font-bold">My list</span>
-            <span className="flex items-center border-2 border-slate-200 text-xs p-1 px-2 gap-4">
-              Categories
-              <IoCaretDown />
-            </span>
-          </div>
-        </div>
-        <section className="flex w-full p-12">
-          <div className="flex flex-wrap w-full gap-8 whitespace-nowrap">
-            {myList &&
-              myList.map((entry) => (
+      <PageLayout section="My list">
+        <section className="flex p-12">
+          <DisplayContainer>
+            {stateList &&
+              stateList.map((entry) => (
                 <div key={entry.id} className="relative flex justify-center">
                   <Link
                     href={`/my-list/?id=${entry.id}`}
                     as={`/my-list/${entry.id}`}
                   >
                     <a onClick={() => setModalInfo(entry)}>
-                      <Thumbnail item={entry} />
+                      <div className="h-28">
+                        <Thumbnail item={entry} />
+                      </div>
                     </a>
                   </Link>
                 </div>
               ))}
-          </div>
+          </DisplayContainer>
         </section>
       </PageLayout>
       <Modal

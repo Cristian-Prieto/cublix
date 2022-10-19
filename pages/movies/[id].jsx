@@ -40,18 +40,48 @@ export default function MovieDetail({ movieDetail }) {
 
 export async function getStaticPaths() {
   const res = await Promise.all([
-    fetch(requests.fetchTrending).then((res) => res.json()),
-    fetch(requests.fetchNetflixOriginals).then((res) => res.json()),
-    fetch(requests.fetchTopRated).then((res) => res.json()),
-    fetch(requests.fetchActionMovies).then((res) => res.json()),
-    fetch(requests.fetchComedyMovies).then((res) => res.json()),
-    fetch(requests.fetchHorrorMovies).then((res) => res.json()),
-    fetch(requests.fetchRomanceMovies).then((res) => res.json()),
-    fetch(requests.fetchDocumentaries).then((res) => res.json()),
+    fetch(requests.fetchTrending)
+      .then((res) => res.json())
+      .then((jsonData) => {
+        return jsonData.results.map((result) => result.id);
+      }),
+    fetch(requests.fetchNetflixOriginals)
+      .then((res) => res.json())
+      .then((jsonData) => {
+        return jsonData.results.map((result) => result.id);
+      }),
+    fetch(requests.fetchTopRated)
+      .then((res) => res.json())
+      .then((jsonData) => {
+        return jsonData.results.map((result) => result.id);
+      }),
+    fetch(requests.fetchActionMovies)
+      .then((res) => res.json())
+      .then((jsonData) => {
+        return jsonData.results.map((result) => result.id);
+      }),
+    fetch(requests.fetchComedyMovies)
+      .then((res) => res.json())
+      .then((jsonData) => {
+        return jsonData.results.map((result) => result.id);
+      }),
+    fetch(requests.fetchHorrorMovies)
+      .then((res) => res.json())
+      .then((jsonData) => {
+        return jsonData.results.map((result) => result.id);
+      }),
+    fetch(requests.fetchRomanceMovies)
+      .then((res) => res.json())
+      .then((jsonData) => {
+        return jsonData.results.map((result) => result.id);
+      }),
+    fetch(requests.fetchDocumentaries)
+      .then((res) => res.json())
+      .then((jsonData) => {
+        return jsonData.results.map((result) => result.id);
+      }),
   ]);
-  const allMovieIds = res.map((movies) =>
-    movies.results.map((movie) => movie.id)
-  );
+  const allMovieIds = res.map((movies) => movies.map((id) => id));
 
   const uniqueIds = [...new Set(allMovieIds.flat())];
 

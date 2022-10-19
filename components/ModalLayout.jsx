@@ -210,7 +210,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
           </div>
         </article>
 
-        <aside className="flex w-2/6 flex-col items-left text-sm gap-4 px-4">
+        <aside className="flex flex-col items-left text-sm gap-4 px-4">
           {getCast && getCast ? (
             <h3 className="text-zinc-500">
               Cast:

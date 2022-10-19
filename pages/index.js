@@ -91,7 +91,7 @@ export default function Home({
           </div>
         )}
 
-        <RowSection
+        {/* <RowSection
           title="Trending right now"
           setModalInfo={setModalInfo}
           listData={trending}
@@ -103,7 +103,7 @@ export default function Home({
           setModalInfo={setModalInfo}
           listData={tvNetflixOriginals}
           section="tv"
-        />
+        /> */}
 
         {/* <RowSection
           title="Animation"

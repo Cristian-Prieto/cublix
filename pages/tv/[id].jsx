@@ -38,48 +38,16 @@ export default function TvDetail({ tvDetail }) {
 
 export async function getStaticPaths() {
   const res = await Promise.all([
-    fetch(requests.fetchPopular)
-      .then((res) => res.json())
-      .then((jsonData) => {
-        return jsonData.results.map((result) => result.id);
-      }),
-    fetch(requests.fetchTvNetflixOriginals)
-      .then((res) => res.json())
-      .then((jsonData) => {
-        return jsonData.results.map((result) => result.id);
-      }),
-    fetch(requests.fetchAnimation)
-      .then((res) => res.json())
-      .then((jsonData) => {
-        return jsonData.results.map((result) => result.id);
-      }),
-    fetch(requests.fetchDrama)
-      .then((res) => res.json())
-      .then((jsonData) => {
-        return jsonData.results.map((result) => result.id);
-      }),
-    fetch(requests.fetchTvDocumentaries)
-      .then((res) => res.json())
-      .then((jsonData) => {
-        return jsonData.results.map((result) => result.id);
-      }),
-    fetch(requests.fetchWestern)
-      .then((res) => res.json())
-      .then((jsonData) => {
-        return jsonData.results.map((result) => result.id);
-      }),
-    fetch(requests.fetchKids)
-      .then((res) => res.json())
-      .then((jsonData) => {
-        return jsonData.results.map((result) => result.id);
-      }),
-    fetch(requests.fetchReality)
-      .then((res) => res.json())
-      .then((jsonData) => {
-        return jsonData.results.map((result) => result.id);
-      }),
+    fetch(requests.fetchPopular).then((res) => res.json()),
+    fetch(requests.fetchTvNetflixOriginals).then((res) => res.json()),
+    fetch(requests.fetchAnimation).then((res) => res.json()),
+    fetch(requests.fetchDrama).then((res) => res.json()),
+    fetch(requests.fetchTvDocumentaries).then((res) => res.json()),
+    fetch(requests.fetchWestern).then((res) => res.json()),
+    fetch(requests.fetchKids).then((res) => res.json()),
+    fetch(requests.fetchReality).then((res) => res.json()),
   ]);
-  const allTvIds = res.map((shows) => shows.map((id) => id));
+  const allTvIds = res.map((shows) => shows.results.map((show) => show.id));
 
   const uniqueIds = [...new Set(allTvIds.flat())];
 

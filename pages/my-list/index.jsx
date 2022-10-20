@@ -1,17 +1,15 @@
-import PageLayout from "../../components/PageLayout";
-import Thumbnail from "../../components/Thumbnail";
-import DisplayContainer from "../../components/DisplayContainer";
 import { useEffect, useState } from "react";
-import ModalLayout from "../../components/ModalLayout";
+import Modal from "react-modal";
+import { useRouter } from "next/router";
+import PageLayout from "../../components/PageLayout";
 import {
   getMyListFromLocalStorage,
   saveMyListToLocalStorage,
 } from "../../utils/localStorage";
 import { useAppContext } from "../../hook/useAppContext";
-import Modal from "react-modal";
 import { BASE_URL, API_KEY } from "../../utils/requests";
-import Link from "next/link";
-import { useRouter } from "next/router";
+import DisplayContainer from "../../components/DisplayContainer";
+import ModalLayout from "../../components/ModalLayout";
 
 Modal.setAppElement("#__next");
 
@@ -19,7 +17,7 @@ export default function MyList({ movieGenres, tvGenres }) {
   const router = useRouter();
   const { stateList } = useAppContext();
   const [modalInfo, setModalInfo] = useState("");
-
+  console.log(stateList);
   useEffect(() => {
     saveMyListToLocalStorage(getMyListFromLocalStorage());
   }, []);
@@ -27,9 +25,14 @@ export default function MyList({ movieGenres, tvGenres }) {
   return (
     <>
       <PageLayout section="My list">
-        <section className="flex p-12">
-          <DisplayContainer>
-            {stateList &&
+        <section className="flex flex-col p-12">
+          <DisplayContainer
+            title="My favourite things"
+            section="my-list"
+            list={stateList}
+            setModalInfo={setModalInfo}
+          />
+          {/* {stateList &&
               stateList.map((entry) => (
                 <div key={entry.id} className="relative flex justify-center">
                   <Link
@@ -43,53 +46,52 @@ export default function MyList({ movieGenres, tvGenres }) {
                     </a>
                   </Link>
                 </div>
-              ))}
-          </DisplayContainer>
+              ))} */}
         </section>
+        <Modal
+          className="scrollbar-none"
+          //!! pasa a booleano
+          isOpen={!!router.query.id}
+          onRequestClose={() => router.push("/my-list")}
+          style={{
+            overlay: {
+              position: "fixed",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(0, 0, 0, 0.75",
+              zIndex: 50,
+            },
+            content: {
+              position: "absolute",
+              top: "40px",
+              left: "0",
+              right: "0",
+              marginLeft: "auto",
+              marginRight: "auto",
+              bottom: "0",
+              border: "none",
+              maxWidth: "800px",
+              background: "#000",
+              overflow: "auto",
+              WebkitOverflowScrolling: "touch",
+              borderRadius: "8px",
+              outline: "none",
+              padding: "0",
+              boxShadow: "0px 0px 25px 8px rgba(0,0,0,0.5)",
+            },
+          }}
+        >
+          <ModalLayout
+            section={modalInfo.category}
+            credits={modalInfo.category === "movies" ? "movie" : "tv"}
+            info={modalInfo}
+            genres={modalInfo.category === "movies" ? movieGenres : tvGenres}
+            tv={modalInfo.category === "tv"}
+          />
+        </Modal>
       </PageLayout>
-      <Modal
-        className="scrollbar-none"
-        //!! pasa a booleano
-        isOpen={!!router.query.id}
-        onRequestClose={() => router.push("/my-list")}
-        style={{
-          overlay: {
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(0, 0, 0, 0.75",
-            zIndex: 50,
-          },
-          content: {
-            position: "absolute",
-            top: "40px",
-            left: "0",
-            right: "0",
-            marginLeft: "auto",
-            marginRight: "auto",
-            bottom: "0",
-            border: "none",
-            maxWidth: "800px",
-            background: "#000",
-            overflow: "auto",
-            WebkitOverflowScrolling: "touch",
-            borderRadius: "8px",
-            outline: "none",
-            padding: "0",
-            boxShadow: "0px 0px 25px 8px rgba(0,0,0,0.5)",
-          },
-        }}
-      >
-        <ModalLayout
-          section={modalInfo.category}
-          credits={modalInfo.category === "movies" ? "movie" : "tv"}
-          info={modalInfo}
-          genres={modalInfo.category === "movies" ? movieGenres : tvGenres}
-          tv={modalInfo.category === "tv"}
-        />
-      </Modal>
     </>
   );
 }

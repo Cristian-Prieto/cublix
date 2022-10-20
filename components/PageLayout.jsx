@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { IoIosArrowBack } from "react-icons/io";
 
 export default function PageLayout({
+  handleChangeGridMenuLayout,
+  gridMenuLayout,
   genreSelected,
   setGenreSelected,
   selectGenre,
@@ -17,7 +19,6 @@ export default function PageLayout({
   title = "Cublix",
 }) {
   const [isOpen, setIsOpen] = useState(false);
-
   const toggleMenu = () => {
     setIsOpen((prevState) => !prevState);
   };
@@ -82,12 +83,31 @@ export default function PageLayout({
               )}
             </div>
             <div className="flex sm:text-md text-slate-200">
-              <div className="flex items-center px-4 border border-slate-200">
-                <HiMenuAlt1 />
-              </div>
-              <div className="flex items-center px-4 border border-slate-200">
-                <BiBorderAll />
-              </div>
+              {gridMenuLayout ? (
+                <>
+                  <div
+                    onClick={handleChangeGridMenuLayout}
+                    className="group flex items-center px-4 border border-slate-200 hover:border-slate-400 transition-all duration-200 cursor-pointer"
+                  >
+                    <HiMenuAlt1 className="group-hover:text-slate-300" />
+                  </div>
+                  <div className="flex items-center px-4 border border-slate-400">
+                    <BiBorderAll className="text-slate-400" />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-center px-4 border  border-slate-400">
+                    <HiMenuAlt1 className="text-slate-400" />
+                  </div>
+                  <div
+                    onClick={handleChangeGridMenuLayout}
+                    className="group flex items-center px-4 border border-slate-200 hover:border-slate-400 transition-all duration-200 cursor-pointer"
+                  >
+                    <BiBorderAll className="group-hover:text-slate-300" />
+                  </div>
+                </>
+              )}
             </div>
           </div>
           {children}

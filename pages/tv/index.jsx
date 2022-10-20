@@ -8,6 +8,7 @@ import Link from "next/link";
 import Modal from "react-modal";
 import requests from "../../utils/requests";
 import RowSection from "../../components/RowSection";
+import DisplayContainer from "../../components/DisplayContainer";
 import ModalLayout from "../../components/ModalLayout";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { IoPlaySharp } from "react-icons/io5";
@@ -25,10 +26,15 @@ export default function Tv({
   kids,
   reality,
 }) {
-  const [genreSelected, setGenreSelected] = useState(null);
   const [modalInfo, setModalInfo] = useState("");
   const [randomTrend, setRandomTrend] = useState(null);
   const router = useRouter();
+  const [genreSelected, setGenreSelected] = useState(null);
+  const [gridMenuLayout, setGridMenuLayout] = useState(false);
+
+  const changeMenuLayout = () => {
+    setGridMenuLayout((prevState) => !prevState);
+  };
 
   useEffect(() => {
     const randomResult =
@@ -48,6 +54,8 @@ export default function Tv({
         setGenreSelected={setGenreSelected}
         genres={genres}
         selectGenre={handleSelectedGenre}
+        handleChangeGridMenuLayout={changeMenuLayout}
+        gridMenuLayout={gridMenuLayout}
       >
         {randomTrend && (
           <div className="h-96 relative">
@@ -91,109 +99,219 @@ export default function Tv({
           </div>
         )}
 
-        <RowSection
-          title="Popular"
-          setModalInfo={setModalInfo}
-          listData={
-            genreSelected
-              ? popular.results.filter((original) =>
-                  original.genre_ids.includes(genreSelected.id)
-                )
-              : popular.results
-          }
-          section="tv"
-        />
+        {gridMenuLayout ? (
+          <section className="flex flex-col px-12">
+            <DisplayContainer
+              title="Popular"
+              setModalInfo={setModalInfo}
+              list={
+                genreSelected
+                  ? popular.results.filter((original) =>
+                      original.genre_ids.includes(genreSelected.id)
+                    )
+                  : popular.results
+              }
+              section="tv"
+            />
 
-        <RowSection
-          title="Netflix originals"
-          setModalInfo={setModalInfo}
-          listData={
-            genreSelected
-              ? tvNetflixOriginals.results.filter((original) =>
-                  original.genre_ids.includes(genreSelected.id)
-                )
-              : tvNetflixOriginals.results
-          }
-          section="tv"
-        />
+            <DisplayContainer
+              title="Netflix originals"
+              setModalInfo={setModalInfo}
+              list={
+                genreSelected
+                  ? tvNetflixOriginals.results.filter((original) =>
+                      original.genre_ids.includes(genreSelected.id)
+                    )
+                  : tvNetflixOriginals.results
+              }
+              section="tv"
+            />
 
-        <RowSection
-          title="Animation"
-          setModalInfo={setModalInfo}
-          listData={
-            genreSelected
-              ? animation.results.filter((original) =>
-                  original.genre_ids.includes(genreSelected.id)
-                )
-              : animation.results
-          }
-          section="tv"
-        />
+            <DisplayContainer
+              title="Animation"
+              setModalInfo={setModalInfo}
+              list={
+                genreSelected
+                  ? animation.results.filter((original) =>
+                      original.genre_ids.includes(genreSelected.id)
+                    )
+                  : animation.results
+              }
+              section="tv"
+            />
 
-        <RowSection
-          title="Drama"
-          setModalInfo={setModalInfo}
-          listData={
-            genreSelected
-              ? drama.results.filter((original) =>
-                  original.genre_ids.includes(genreSelected.id)
-                )
-              : drama.results
-          }
-          section="tv"
-        />
+            <DisplayContainer
+              title="Drama"
+              setModalInfo={setModalInfo}
+              list={
+                genreSelected
+                  ? drama.results.filter((original) =>
+                      original.genre_ids.includes(genreSelected.id)
+                    )
+                  : drama.results
+              }
+              section="tv"
+            />
 
-        <RowSection
-          title="Documentaries"
-          setModalInfo={setModalInfo}
-          listData={
-            genreSelected
-              ? documentaries.results.filter((original) =>
-                  original.genre_ids.includes(genreSelected.id)
-                )
-              : documentaries.results
-          }
-          section="tv"
-        />
+            <DisplayContainer
+              title="Documentaries"
+              setModalInfo={setModalInfo}
+              list={
+                genreSelected
+                  ? documentaries.results.filter((original) =>
+                      original.genre_ids.includes(genreSelected.id)
+                    )
+                  : documentaries.results
+              }
+              section="tv"
+            />
 
-        <RowSection
-          title="Western"
-          setModalInfo={setModalInfo}
-          listData={
-            genreSelected
-              ? western.results.filter((original) =>
-                  original.genre_ids.includes(genreSelected.id)
-                )
-              : western.results
-          }
-          section="tv"
-        />
+            <DisplayContainer
+              title="Western"
+              setModalInfo={setModalInfo}
+              list={
+                genreSelected
+                  ? western.results.filter((original) =>
+                      original.genre_ids.includes(genreSelected.id)
+                    )
+                  : western.results
+              }
+              section="tv"
+            />
 
-        <RowSection
-          title="Kids"
-          setModalInfo={setModalInfo}
-          listData={
-            genreSelected
-              ? kids.results.filter((original) =>
-                  original.genre_ids.includes(genreSelected.id)
-                )
-              : kids.results
-          }
-          section="tv"
-        />
+            <DisplayContainer
+              title="Kids"
+              setModalInfo={setModalInfo}
+              list={
+                genreSelected
+                  ? kids.results.filter((original) =>
+                      original.genre_ids.includes(genreSelected.id)
+                    )
+                  : kids.results
+              }
+              section="tv"
+            />
 
-        <RowSection
-          title="Reality"
-          setModalInfo={setModalInfo}
-          listData={
-            genreSelected
-              ? reality.results.filter((original) =>
-                  original.genre_ids.includes(genreSelected.id)
-                )
-              : reality.results
-          }
-          section="tv"
-        />
+            <DisplayContainer
+              title="Reality"
+              setModalInfo={setModalInfo}
+              list={
+                genreSelected
+                  ? reality.results.filter((original) =>
+                      original.genre_ids.includes(genreSelected.id)
+                    )
+                  : reality.results
+              }
+              section="tv"
+            />
+          </section>
+        ) : (
+          <section className="flex flex-col">
+            <RowSection
+              title="Popular"
+              setModalInfo={setModalInfo}
+              listData={
+                genreSelected
+                  ? popular.results.filter((original) =>
+                      original.genre_ids.includes(genreSelected.id)
+                    )
+                  : popular.results
+              }
+              section="tv"
+            />
+
+            <RowSection
+              title="Netflix originals"
+              setModalInfo={setModalInfo}
+              listData={
+                genreSelected
+                  ? tvNetflixOriginals.results.filter((original) =>
+                      original.genre_ids.includes(genreSelected.id)
+                    )
+                  : tvNetflixOriginals.results
+              }
+              section="tv"
+            />
+
+            <RowSection
+              title="Animation"
+              setModalInfo={setModalInfo}
+              listData={
+                genreSelected
+                  ? animation.results.filter((original) =>
+                      original.genre_ids.includes(genreSelected.id)
+                    )
+                  : animation.results
+              }
+              section="tv"
+            />
+
+            <RowSection
+              title="Drama"
+              setModalInfo={setModalInfo}
+              listData={
+                genreSelected
+                  ? drama.results.filter((original) =>
+                      original.genre_ids.includes(genreSelected.id)
+                    )
+                  : drama.results
+              }
+              section="tv"
+            />
+
+            <RowSection
+              title="Documentaries"
+              setModalInfo={setModalInfo}
+              listData={
+                genreSelected
+                  ? documentaries.results.filter((original) =>
+                      original.genre_ids.includes(genreSelected.id)
+                    )
+                  : documentaries.results
+              }
+              section="tv"
+            />
+
+            <RowSection
+              title="Western"
+              setModalInfo={setModalInfo}
+              listData={
+                genreSelected
+                  ? western.results.filter((original) =>
+                      original.genre_ids.includes(genreSelected.id)
+                    )
+                  : western.results
+              }
+              section="tv"
+            />
+
+            <RowSection
+              title="Kids"
+              setModalInfo={setModalInfo}
+              listData={
+                genreSelected
+                  ? kids.results.filter((original) =>
+                      original.genre_ids.includes(genreSelected.id)
+                    )
+                  : kids.results
+              }
+              section="tv"
+            />
+
+            <RowSection
+              title="Reality"
+              setModalInfo={setModalInfo}
+              listData={
+                genreSelected
+                  ? reality.results.filter((original) =>
+                      original.genre_ids.includes(genreSelected.id)
+                    )
+                  : reality.results
+              }
+              section="tv"
+            />
+          </section>
+        )}
 
         {router.query.id && (
           <Modal

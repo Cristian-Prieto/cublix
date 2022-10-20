@@ -102,7 +102,7 @@ export default function Movies({
         )}
 
         {gridMenuLayout ? (
-          <section className="flex flex-col p-12">
+          <section className="flex flex-col px-12">
             <DisplayContainer
               title="Netflix originals"
               list={

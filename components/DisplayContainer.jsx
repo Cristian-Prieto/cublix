@@ -9,7 +9,7 @@ export default function DisplayContainer({
 }) {
   return (
     <>
-      <h2 className="text-left mb-8 sm:text-xl text-slate-200 font-bold">
+      <h2 className="text-left mb-4 sm:text-xl text-slate-200 font-bold">
         {title}
       </h2>
       <div className="flex flex-wrap justify-center sm:justify-between gap-8 mb-24 h-full w-full">

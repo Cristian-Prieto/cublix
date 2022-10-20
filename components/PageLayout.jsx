@@ -58,13 +58,13 @@ export default function PageLayout({
                   <h2 className="text-xl">{genreSelected.name}</h2>
                 </>
               ) : (
-                <div className="flex flex-col justify-center items-center ">
+                <div className="group flex flex-col justify-center items-center">
                   <button
                     onClick={toggleMenu}
-                    className="flex items-center border-2 border-slate-200 text-xs p-1 px-2 gap-4"
+                    className="flex items-center border-2 border-slate-200 group-hover:border-slate-400 group-hover:text-slate-400 transition duration-200 text-xs p-1 px-2 gap-4"
                   >
                     Categories
-                    <IoCaretDown />
+                    <IoCaretDown className="group-hover:text-slate-400 transition duration-200 -z-10" />
                   </button>
                   {isOpen && (
                     <ul className="grid grid-cols-3 left-0 text-left p-4 gap-2 border-t-2 border-slate-200 bg-black bg-opacity-90 absolute top-full text-sm">

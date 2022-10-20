@@ -183,7 +183,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
       </div>
 
       <section className="flex text-white p-12 gap-4 bg-zinc-900">
-        <article className="w-4/6">
+        <article className="w-full flex flex-col">
           <h3 className="flex gap-4 mb-8">
             <span className="font-bold text-green-500">
               {Math.floor(info.vote_average) * 10}% Match
@@ -210,7 +210,7 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
           </div>
         </article>
 
-        <aside className="flex flex-col items-left text-sm gap-4 px-4">
+        <aside className="flex flex-col flex-wrap  items-left text-sm gap-4 px-4 w-2/5">
           {getCast && getCast ? (
             <h3 className="text-zinc-500">
               Cast:
@@ -222,7 +222,9 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
           {allGenres && allGenres.length > 0 ? (
             <h3 className="text-zinc-500">
               Genres:
-              <span className="pl-2 text-white">{allGenres.toString()}</span>
+              <span className="flex pl-2 text-white">
+                {allGenres.toString()}
+              </span>
             </h3>
           ) : null}
           <h3 className="flex gap-2">

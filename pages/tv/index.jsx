@@ -63,7 +63,9 @@ export default function Tv({
               <h1 className="text-3xl text-white">
                 {randomTrend.title || randomTrend.name}
               </h1>
-              <p>{randomTrend.overview}</p>
+              <p className="max-h-40 overflow-scroll scrollbar-none">
+                {randomTrend.overview}
+              </p>
               <div className="flex gap-4">
                 <Link href={`/tv/${randomTrend.id}`}>
                   <a className="flex gap-2 font-semibold items-center justify-center rounded-md px-4 py-2 text-black bg-slate-100 bg-opacity-100 hover:bg-opacity-80">

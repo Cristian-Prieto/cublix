@@ -220,11 +220,10 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
             </h3>
           ) : null}
           {allGenres && allGenres.length > 0 ? (
-            <h3 className="text-zinc-500">
-              Genres:
-              <span className="flex pl-2 text-white">
-                {allGenres.toString()}
-              </span>
+            <h3 className="flex gap-2">
+              <span className="text-zinc-500">Genres:</span>
+
+              <span className="text-white">{allGenres.toString()}</span>
             </h3>
           ) : null}
           <h3 className="flex gap-2">

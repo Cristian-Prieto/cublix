@@ -22,7 +22,7 @@ export default function PageLayout({
   const toggleMenu = () => {
     setIsOpen((prevState) => !prevState);
   };
-
+  console.log(section);
   useEffect(() => {
     const closeGenresMenu = (event) => {
       if (event.path[0].tagName !== "BUTTON") {
@@ -49,35 +49,39 @@ export default function PageLayout({
             <div className="flex items-center space-x-8 text-slate-200">
               <span className="sm:text-3xl font-bold">{section}</span>
 
-              {genreSelected ? (
-                <>
-                  <IoIosArrowBack
-                    onClick={() => setGenreSelected(null)}
-                    className="text-3xl text-slate-300 cursor-pointer hover:text-white"
-                  />
-                  <h2 className="text-xl">{genreSelected.name}</h2>
-                </>
-              ) : (
-                <div className="group flex flex-col justify-center items-center">
-                  <button
-                    onClick={toggleMenu}
-                    className="flex items-center border-2 border-slate-200 group-hover:border-slate-400 group-hover:text-slate-400 transition duration-200 text-xs p-1 px-2 gap-4"
-                  >
-                    Categories
-                    <IoCaretDown className="group-hover:text-slate-400 transition duration-200 -z-10" />
-                  </button>
-                  {isOpen && (
-                    <ul className="grid grid-cols-3 left-0 text-left p-4 gap-2 border-t-2 border-slate-200 bg-black bg-opacity-90 absolute top-full text-sm">
-                      {genres.map((genre) => (
-                        <li
-                          key={genre.name}
-                          onClick={() => selectGenre(genre)}
-                          className="hover:underline cursor-pointer"
-                        >
-                          {genre.name}
-                        </li>
-                      ))}
-                    </ul>
+              {(section === "Movies" || section === "Tv shows") && (
+                <div className="flex">
+                  {genreSelected ? (
+                    <>
+                      <IoIosArrowBack
+                        onClick={() => setGenreSelected(null)}
+                        className="text-3xl text-slate-300 cursor-pointer hover:text-white"
+                      />
+                      <h2 className="text-xl">{genreSelected.name}</h2>
+                    </>
+                  ) : (
+                    <div className="group flex flex-col justify-center items-center">
+                      <button
+                        onClick={toggleMenu}
+                        className="flex items-center border-2 border-slate-200 group-hover:border-slate-400 group-hover:text-slate-400 transition duration-200 text-xs p-1 px-2 gap-4"
+                      >
+                        Categories
+                        <IoCaretDown className="group-hover:text-slate-400 transition duration-200 -z-10" />
+                      </button>
+                      {isOpen && (
+                        <ul className="grid grid-cols-3 left-0 text-left p-4 gap-2 border-t-2 border-slate-200 bg-black bg-opacity-90 absolute top-full text-sm">
+                          {genres.map((genre) => (
+                            <li
+                              key={genre.name}
+                              onClick={() => selectGenre(genre)}
+                              className="hover:underline cursor-pointer"
+                            >
+                              {genre.name}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
                   )}
                 </div>
               )}

@@ -48,7 +48,7 @@ export default function Home({
                 {randomTrend.title || randomTrend.name}
               </h1>
               <p>{randomTrend.overview}</p>
-              <div className="flex gap-4">
+              {/* <div className="flex gap-4">
                 <Link
                   href={`${randomTrend.first_air_date ? "tv" : "movies"}/${
                     randomTrend.id
@@ -76,7 +76,7 @@ export default function Home({
                     <span>Info</span>
                   </a>
                 </Link>
-              </div>
+              </div> */}
             </div>
 
             <Image

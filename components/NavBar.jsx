@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FaSearch, FaBell } from "react-icons/fa";
 import { IoCaretDown, IoCaretUp } from "react-icons/io5";
+import Image from "next/image";
 
 export default function NavBar() {
   return (
@@ -23,12 +24,11 @@ export default function NavBar() {
           <Link href="/movies">
             <a className="hover:opacity-80 trasition duration-300">Movies</a>
           </Link>
-          <span>New & popular</span>
-          {/* <Link href="/new-and-popular">
+          <Link href="/new-and-popular">
             <a className="hover:opacity-80 trasition duration-300">
               New & popular
             </a>
-          </Link> */}
+          </Link>
           <Link href="/my-list">
             <a className="hover:opacity-80 trasition duration-300">My list</a>
           </Link>
@@ -38,11 +38,11 @@ export default function NavBar() {
           <span className="hover:opacity-80 trasition duration-300">kids</span>
           <FaBell className="text-xl" />
           <div className="flex justify-center items-center gap-2">
-            <img
+            <Image
               src="https://via.placeholder.com/150"
               alt="profile image"
               className="w-8"
-            ></img>
+            ></Image>
           </div>
         </div>
       </div>

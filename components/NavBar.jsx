@@ -37,13 +37,13 @@ export default function NavBar() {
           <FaSearch className="text-white text-xl" />
           <span className="hover:opacity-80 trasition duration-300">kids</span>
           <FaBell className="text-xl" />
-          <div className="flex justify-center items-center gap-2">
+          {/* <div className="flex justify-center items-center gap-2">
             <Image
               src="https://via.placeholder.com/150"
               alt="profile image"
               className="w-8"
             ></Image>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

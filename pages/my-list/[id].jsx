@@ -11,7 +11,9 @@ export default function MyListDetail() {
     const listItem = myList.find((item) => item.id === Number(router.query.id));
 
     if (listItem) {
-      router.replace(`/${listItem.category}/${listItem.id}`);
+      router.replace(`/${listItem.category}/${listItem.id}`, undefined, {
+        scroll: false,
+      });
     }
   }, [router, id]);
 

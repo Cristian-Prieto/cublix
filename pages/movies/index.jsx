@@ -48,6 +48,20 @@ export default function Movies({
     setGenreSelected(genre);
   };
 
+  const sections = [
+    { title: "Netflix originals", data: netflixOriginals },
+    { title: "Top rated", data: topRated },
+    { title: "Action movies", data: actionMovies },
+    { title: "Comedy movies", data: comedyMovies },
+    { title: "Horror movies", data: horrorMovies },
+    { title: "Romance movies", data: romanceMovies },
+    { title: "Documentaries", data: documentaries },
+  ];
+
+  const handleClose = () => {
+    router.replace("/movies", undefined, { scroll: false, shallow: true });
+  };
+
   return (
     <>
       <PageLayout
@@ -103,189 +117,39 @@ export default function Movies({
 
         {gridMenuLayout ? (
           <section className="flex flex-col px-12">
-            <DisplayContainer
-              title="Netflix originals"
-              list={
-                genreSelected
-                  ? netflixOriginals.results.filter((original) =>
-                      original.genre_ids.includes(genreSelected.id)
-                    )
-                  : netflixOriginals.results
-              }
-              setModalInfo={setModalInfo}
-              section="movies"
-            />
-
-            <DisplayContainer
-              title="Top rated"
-              setModalInfo={setModalInfo}
-              list={
-                genreSelected
-                  ? topRated.results.filter((original) =>
-                      original.genre_ids.includes(genreSelected.id)
-                    )
-                  : topRated.results
-              }
-              section="movies"
-            />
-
-            <DisplayContainer
-              title="Action movies"
-              setModalInfo={setModalInfo}
-              list={
-                genreSelected
-                  ? actionMovies.results.filter((original) =>
-                      original.genre_ids.includes(genreSelected.id)
-                    )
-                  : actionMovies.results
-              }
-              section="movies"
-            />
-
-            <DisplayContainer
-              title="Comedy movies"
-              setModalInfo={setModalInfo}
-              list={
-                genreSelected
-                  ? comedyMovies.results.filter((original) =>
-                      original.genre_ids.includes(genreSelected.id)
-                    )
-                  : comedyMovies.results
-              }
-              section="movies"
-            />
-
-            <DisplayContainer
-              title="Horror movies"
-              setModalInfo={setModalInfo}
-              list={
-                genreSelected
-                  ? horrorMovies.results.filter((original) =>
-                      original.genre_ids.includes(genreSelected.id)
-                    )
-                  : horrorMovies.results
-              }
-              section="movies"
-            />
-
-            <DisplayContainer
-              title="Romance movies"
-              setModalInfo={setModalInfo}
-              list={
-                genreSelected
-                  ? romanceMovies.results.filter((original) =>
-                      original.genre_ids.includes(genreSelected.id)
-                    )
-                  : romanceMovies.results
-              }
-              section="movies"
-            />
-
-            <DisplayContainer
-              title="Documentaries"
-              setModalInfo={setModalInfo}
-              list={
-                genreSelected
-                  ? documentaries.results.filter((original) =>
-                      original.genre_ids.includes(genreSelected.id)
-                    )
-                  : documentaries.results
-              }
-              section="movies"
-            />
+            {sections.map((section) => (
+              <DisplayContainer
+                key={section.title}
+                title={section.title}
+                list={
+                  genreSelected
+                    ? section.data.results.filter((original) =>
+                        original.genre_ids.includes(genreSelected.id)
+                      )
+                    : section.data.results
+                }
+                onClick={(item) => setModalInfo(item)}
+                section="movies"
+              />
+            ))}
           </section>
         ) : (
           <section className="flex flex-col">
-            <RowSection
-              title="Netflix originals"
-              listData={
-                genreSelected
-                  ? netflixOriginals.results.filter((original) =>
-                      original.genre_ids.includes(genreSelected.id)
-                    )
-                  : netflixOriginals.results
-              }
-              setModalInfo={setModalInfo}
-              section="movies"
-            />
-
-            <RowSection
-              title="Top rated"
-              setModalInfo={setModalInfo}
-              listData={
-                genreSelected
-                  ? topRated.results.filter((original) =>
-                      original.genre_ids.includes(genreSelected.id)
-                    )
-                  : topRated.results
-              }
-              section="movies"
-            />
-
-            <RowSection
-              title="Action movies"
-              setModalInfo={setModalInfo}
-              listData={
-                genreSelected
-                  ? actionMovies.results.filter((original) =>
-                      original.genre_ids.includes(genreSelected.id)
-                    )
-                  : actionMovies.results
-              }
-              section="movies"
-            />
-
-            <RowSection
-              title="Comedy movies"
-              setModalInfo={setModalInfo}
-              listData={
-                genreSelected
-                  ? comedyMovies.results.filter((original) =>
-                      original.genre_ids.includes(genreSelected.id)
-                    )
-                  : comedyMovies.results
-              }
-              section="movies"
-            />
-
-            <RowSection
-              title="Horror movies"
-              setModalInfo={setModalInfo}
-              listData={
-                genreSelected
-                  ? horrorMovies.results.filter((original) =>
-                      original.genre_ids.includes(genreSelected.id)
-                    )
-                  : horrorMovies.results
-              }
-              section="movies"
-            />
-
-            <RowSection
-              title="Romance movies"
-              setModalInfo={setModalInfo}
-              listData={
-                genreSelected
-                  ? romanceMovies.results.filter((original) =>
-                      original.genre_ids.includes(genreSelected.id)
-                    )
-                  : romanceMovies.results
-              }
-              section="movies"
-            />
-
-            <RowSection
-              title="Documentaries"
-              setModalInfo={setModalInfo}
-              listData={
-                genreSelected
-                  ? documentaries.results.filter((original) =>
-                      original.genre_ids.includes(genreSelected.id)
-                    )
-                  : documentaries.results
-              }
-              section="movies"
-            />
+            {sections.map((section) => (
+              <RowSection
+                key={section.title}
+                title={section.title}
+                listData={
+                  genreSelected
+                    ? section.data.results.filter((original) =>
+                        original.genre_ids.includes(genreSelected.id)
+                      )
+                    : section.data.results
+                }
+                onClick={(item) => setModalInfo(item)}
+                section="movies"
+              />
+            ))}
           </section>
         )}
 
@@ -294,7 +158,7 @@ export default function Movies({
             className="scrollbar-none"
             //!! pasa a booleano
             isOpen={!!router.query.id}
-            onRequestClose={() => router.push("/movies")}
+            onRequestClose={handleClose}
             style={{
               overlay: {
                 position: "fixed",
@@ -326,6 +190,7 @@ export default function Movies({
             }}
           >
             <ModalLayout
+              onClose={handleClose}
               section="movies"
               credits="movie"
               info={modalInfo}

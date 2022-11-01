@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Thumbnail from "./Thumbnail";
 
-export default function RowSection({ setModalInfo, listData, title, section }) {
+export default function RowSection({ onClick, listData, title, section }) {
+  if (listData.length === 0) return null;
   return (
     <>
       <h2 className="sm:text-xl text-slate-200 font-bold px-12">{title}</h2>
@@ -9,10 +10,13 @@ export default function RowSection({ setModalInfo, listData, title, section }) {
         {listData.map((item) => (
           <Link
             key={item.id}
-            href={`/${section}/?id=${item.id}`}
-            as={`/${section}/${item.id}`}
+            href={section ? `/${section}/?id=${item.id}` : `/?id=${item.id}`}
+            as={section ? `/${section}/${item.id}` : `/?id=${item.id}`}
+            scroll={false}
+            replace={true}
+            shallow={true}
           >
-            <a onClick={() => setModalInfo(item)}>
+            <a onClick={() => onClick(item)}>
               <Thumbnail item={item} />
             </a>
           </Link>

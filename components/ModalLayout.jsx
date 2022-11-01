@@ -17,7 +17,14 @@ import {
   saveMyListToLocalStorage,
 } from "../utils/localStorage";
 
-export default function ModalLayout({ info, genres, credits, tv, section }) {
+export default function ModalLayout({
+  info,
+  genres,
+  credits,
+  tv,
+  section,
+  onClose,
+}) {
   const [allGenres, setAllGenres] = useState(null);
   const [getCast, setGetCast] = useState(null);
   const [recomendations, setRecomendations] = useState(null);
@@ -102,26 +109,21 @@ export default function ModalLayout({ info, genres, credits, tv, section }) {
     }
   }, [seasons, actualSeason]);
 
-  useEffect(() => {
-    const closeSeasonsMenu = (event) => {
-      if (event.path[0].tagName !== "BUTTON") {
-        setIsSeasonsMenuOpen(false);
-      }
-    };
-    document.body.addEventListener("click", closeSeasonsMenu);
+  // useEffect(() => {
+  //   const closeSeasonsMenu = (event) => {
+  //     if (event.path[0].tagName !== "BUTTON") {
+  //       setIsSeasonsMenuOpen(false);
+  //     }
+  //   };
+  //   document.body.addEventListener("click", closeSeasonsMenu);
 
-    return document.body.addEventListener("click", closeSeasonsMenu);
-  }, []);
+  //   return document.body.addEventListener("click", closeSeasonsMenu);
+  // }, []);
 
   return (
     <>
       <div className="flex flex-col relative text-white bg-gradient-to-b from-transparent to-zinc-900">
-        <div
-          className="z-50 absolute right-8 top-4"
-          onClick={() => {
-            router.back();
-          }}
-        >
+        <div className="z-50 absolute right-8 top-4" onClick={onClose}>
           <AiOutlineCloseCircle className="text-6xl text-white hover:text-slate-300 cursor-pointer" />
         </div>
         <Image

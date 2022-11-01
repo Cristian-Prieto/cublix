@@ -1,12 +1,8 @@
 import Link from "next/link";
 import Thumbnail from "./Thumbnail";
 
-export default function DisplayContainer({
-  list,
-  setModalInfo,
-  title,
-  section,
-}) {
+export default function DisplayContainer({ list, onClick, title, section }) {
+  if (list.length === 0) return null;
   return (
     <>
       <h2 className="text-left mb-4 sm:text-xl text-slate-200 font-bold">
@@ -17,10 +13,12 @@ export default function DisplayContainer({
           list.map((item) => (
             <div key={item.id} className="relative flex justify-center">
               <Link
-                href={`/${section}/?id=${item.id}`}
-                as={`/my-list/${item.id}`}
+                href={
+                  section ? `/${section}/?id=${item.id}` : `/?id=${item.id}`
+                }
+                as={section ? `/${section}/${item.id}` : `/${item.id}`}
               >
-                <a onClick={() => setModalInfo(item)}>
+                <a onClick={() => onClick(item)}>
                   <div className="h-28">
                     <Thumbnail item={item} />
                   </div>

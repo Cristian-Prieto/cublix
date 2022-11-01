@@ -22,17 +22,17 @@ export default function PageLayout({
   const toggleMenu = () => {
     setIsOpen((prevState) => !prevState);
   };
-  console.log(section);
-  useEffect(() => {
-    const closeGenresMenu = (event) => {
-      if (event.path[0].tagName !== "BUTTON") {
-        setIsOpen(false);
-      }
-    };
-    document.body.addEventListener("click", closeGenresMenu);
 
-    return document.body.addEventListener("click", closeGenresMenu);
-  }, []);
+  // useEffect(() => {
+  //   const closeGenresMenu = (event) => {
+  //     if (event.path[0].tagName !== "BUTTON") {
+  //       setIsOpen(false);
+  //     }
+  //   };
+  //   document.body.addEventListener("click", closeGenresMenu);
+
+  //   return document.body.addEventListener("click", closeGenresMenu);
+  // }, []);
 
   return (
     <>
@@ -86,33 +86,36 @@ export default function PageLayout({
                 </div>
               )}
             </div>
-            <div className="flex sm:text-md text-slate-200">
-              {gridMenuLayout ? (
-                <>
-                  <div
-                    onClick={handleChangeGridMenuLayout}
-                    className="group flex items-center px-4 border border-slate-200 hover:border-slate-400 transition-all duration-200 cursor-pointer"
-                  >
-                    <HiMenuAlt1 className="group-hover:text-slate-300" />
-                  </div>
-                  <div className="flex items-center px-4 border border-slate-400">
-                    <BiBorderAll className="text-slate-400" />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="flex items-center px-4 border  border-slate-400">
-                    <HiMenuAlt1 className="text-slate-400" />
-                  </div>
-                  <div
-                    onClick={handleChangeGridMenuLayout}
-                    className="group flex items-center px-4 border border-slate-200 hover:border-slate-400 transition-all duration-200 cursor-pointer"
-                  >
-                    <BiBorderAll className="group-hover:text-slate-300" />
-                  </div>
-                </>
-              )}
-            </div>
+
+            {section !== "My list" && (
+              <div className="flex sm:text-md text-slate-200">
+                {gridMenuLayout ? (
+                  <>
+                    <div
+                      onClick={handleChangeGridMenuLayout}
+                      className="group flex items-center px-4 border border-slate-200 hover:border-slate-400 transition-all duration-200 cursor-pointer"
+                    >
+                      <HiMenuAlt1 className="group-hover:text-slate-300" />
+                    </div>
+                    <div className="flex items-center px-4 border border-slate-400">
+                      <BiBorderAll className="text-slate-400" />
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center px-4 border  border-slate-400">
+                      <HiMenuAlt1 className="text-slate-400" />
+                    </div>
+                    <div
+                      onClick={handleChangeGridMenuLayout}
+                      className="group flex items-center px-4 border border-slate-200 hover:border-slate-400 transition-all duration-200 cursor-pointer"
+                    >
+                      <BiBorderAll className="group-hover:text-slate-300" />
+                    </div>
+                  </>
+                )}{" "}
+              </div>
+            )}
           </div>
           {children}
         </main>

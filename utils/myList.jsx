@@ -1,8 +1,5 @@
 import { createContext, useState, useEffect } from "react";
-import {
-  saveMyListToLocalStorage,
-  getMyListFromLocalStorage,
-} from "./localStorage";
+import { saveMyListToLocalStorage, getMyListFromLocalStorage } from "./localStorage";
 
 export const INITIAL_MY_LIST = [];
 
@@ -10,6 +7,14 @@ export const AppContext = createContext();
 
 const AppContextComponent = ({ children }) => {
   const [stateList, setStateList] = useState(getMyListFromLocalStorage());
+  const [sessionId, setSessionId] = useState(null);
+
+  useEffect(() => {
+    const localSessionId = window.localStorage.getItem("sessionId");
+    if (localSessionId) {
+      setSessionId(localSessionId);
+    }
+  }, []);
 
   useEffect(() => {
     saveMyListToLocalStorage(stateList);
@@ -43,6 +48,8 @@ const AppContextComponent = ({ children }) => {
         addToMyList,
         removeFromMyList,
         stateList,
+        isLoggedIn: !!sessionId,
+        setSessionId,
       }}
     >
       {children}

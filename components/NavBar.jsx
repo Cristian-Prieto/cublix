@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { FaSearch, FaBell } from "react-icons/fa";
-import { IoCaretDown, IoCaretUp } from "react-icons/io5";
+import { IoCaretDown, IoCaretUp, IoPerson, IoLogOut } from "react-icons/io5";
 import Image from "next/image";
+import { useAppContext } from "../hook/useAppContext";
 
 export default function NavBar() {
+  const { isLoggedIn, setSessionId } = useAppContext();
   return (
     <>
       <div className="flex justify-between text-white px-12 p-4 bg-gradient-to-b from-black to-transparent">
@@ -25,9 +27,7 @@ export default function NavBar() {
             <a className="hover:opacity-80 trasition duration-300">Movies</a>
           </Link>
           <Link href="/new-and-popular">
-            <a className="hover:opacity-80 trasition duration-300">
-              New & popular
-            </a>
+            <a className="hover:opacity-80 trasition duration-300">New & popular</a>
           </Link>
           <Link href="/my-list">
             <a className="hover:opacity-80 trasition duration-300">My list</a>
@@ -37,13 +37,23 @@ export default function NavBar() {
           <FaSearch className="text-white text-xl" />
           <span className="hover:opacity-80 trasition duration-300">kids</span>
           <FaBell className="text-xl" />
-          {/* <div className="flex justify-center items-center gap-2">
-            <Image
-              src="https://via.placeholder.com/150"
-              alt="profile image"
-              className="w-8"
-            ></Image>
-          </div> */}
+          <div className="flex justify-center items-center gap-2">
+            {isLoggedIn ? (
+              <IoLogOut
+                className="cursor-pointer"
+                onClick={() => {
+                  setSessionId(undefined);
+                  window.localStorage.removeItem("sessionId");
+                }}
+              />
+            ) : (
+              <Link href="/api/auth">
+                <a>
+                  <IoPerson className="text-xl" />
+                </a>
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </>
